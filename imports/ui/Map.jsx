@@ -1,25 +1,26 @@
 import React, { Component, PropTypes } from 'react';
-import { GoogleMapLoader, Marker, SearchBox } from "react-google-maps";
-
 
 export default class Map extends Component {
 
 	componentDidMount() {
-		this.initMap();
-	}
-
-  initMap() {
-  	var map;
-		map = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: -34.397, lng: 150.644},
-			zoom: 8
+		mapboxgl.accessToken = 'pk.eyJ1IjoibXhtY2ciLCJhIjoiY2lvaGg5d2VqMDFxdHVkbTM4c3Qyc20wbCJ9.dS8RvWeJd_0zTCfX4A5kaA';
+			var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v8'
 		});
-  }
-	
+		Meteor.call('fetchArtistId', function(err, res) {
+			console.log("callback")
+			if (err) {
+				return err;
+			} else {
+				return res;
+			}
+		});
+	}
 
   render() {
     return (
-			<div id='map'></div>
+			<div id='map' style={{width: '400px', height: '300px'}}></div>
     );
   }
 }
