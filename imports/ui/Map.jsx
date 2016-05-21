@@ -8,8 +8,7 @@ export default class Map extends Component {
 			container: 'map',
 			style: 'mapbox://styles/mapbox/streets-v8'
 		});
-		Meteor.call('fetchArtistId', function(err, res) {
-			console.log("callback")
+		Meteor.call('fetchArtistId', 'katchafire', function (err, res) {
 			if (err) {
 				return err;
 			} else {
