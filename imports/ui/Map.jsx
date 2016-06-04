@@ -1,25 +1,45 @@
+/*External Dependencies*/
 import React, { Component, PropTypes } from 'react';
 
+/*Subcomponents*/
+import Search from './Search.jsx';
+
+/*React Component*/
 export default class Map extends Component {
 
+	constructor(props) {
+		super(props);
+		this.createMarkers = this.createMarkers.bind(this);
+		this.initMap = this.initMap.bind(this);
+	}
+
 	componentDidMount() {
-		mapboxgl.accessToken = 'pk.eyJ1IjoibXhtY2ciLCJhIjoiY2lvaGg5d2VqMDFxdHVkbTM4c3Qyc20wbCJ9.dS8RvWeJd_0zTCfX4A5kaA';
-			var map = new mapboxgl.Map({
-			container: 'map',
-			style: 'mapbox://styles/mapbox/streets-v8'
-		});
-		Meteor.call('fetchArtistId', 'katchafire', function (err, res) {
-			if (err) {
-				return err;
-			} else {
-				return res;
-			}
+	  this.initMap();  
+	}
+
+	createMarkers(array) {
+		for (var i = 0; i < array.length; i++) {
+			new google.maps.Marker({
+		    position: array[i],
+		    map: this.map,
+		    title: 'Hello World!'
+		  });
+		}
+	}
+
+	initMap() {
+		this.map = new google.maps.Map(document.getElementById('map'), {
+		  center: {lat: 37.7749, lng: -122.4194},
+		  zoom: 3
 		});
 	}
 
   render() {
     return (
-			<div id='map' style={{width: '400px', height: '300px'}}></div>
+    	<div className='mapWrap'>
+	    	<Search createMarkers={this.createMarkers} />
+				<div id='map' style={{width: '400px', height: '300px'}}></div>
+			</div>	
     );
   }
 }

@@ -4,19 +4,30 @@ export default class Search extends Component {
 
 	constructor(props) {
 		super(props);
+		this.createLocations = this.createLocations.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.getArtistId = this.getArtistId.bind(this);
 		this.getArtistCalendar = this.getArtistCalendar.bind(this);
 	}
 
+	createLocations(eventsArray) {
+		var latLong = [];
+		var eventsCount = eventsArray.length;
+		for (var i = 0; i < eventsCount; i++) {
+			var indLatLng = {lat: eventsArray[i].location.lat, lng: eventsArray[i].location.lng}
+			latLong.push(indLatLng);
+		}
+		return this.props.createMarkers(latLong);
+	}
+
 	getArtistId(artist, callback) {
 		Meteor.call('fetchArtistId', artist, function (err, res) {
-				if (err) {
-					return err;
-				} else {
-					return res;
-				}
+			if (err) {
+				return err;
+			} else {
+				callback(res);
+			}
 		});
 	}
 
@@ -25,19 +36,18 @@ export default class Search extends Component {
 			if (err) {
 				return err;
 			} else {
-				console.log(res)
-				return res;
+				callback(res.resultsPage.results.event);
 			}
 		});
 	}
 
 	handleSubmit(e) {
+		var self = this;
 		var artist = this.state.artist;
 		e.preventDefault();
 		this.getArtistId(artist, function (id) {
-			console.log(id)
-			this.getArtistCalendar(id, function (array) {
-				console.log(array);
+			self.getArtistCalendar(id, function (eventsArray) {
+				self.createLocations(eventsArray);
 			});	
 		});
 		
@@ -45,7 +55,6 @@ export default class Search extends Component {
 
 	handleChange(e) {
 		this.setState({ artist: e.target.value })
-		console.log('hi')
 	}
 
   render() {
@@ -61,5 +70,5 @@ export default class Search extends Component {
 }
 
 Search.propTypes = {
-
+	createMarkers: React.PropTypes.func
 };

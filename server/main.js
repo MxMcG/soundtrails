@@ -36,9 +36,8 @@ if (Meteor.isServer) {
 			var myFuture = new Future();
 
 			console.log(id);
-			var stringId = id.toString();	
 
-			HTTP.call('GET', 'http://api.songkick.com/api/3.0/artists/' + stringId + '/calendar.json', {
+			HTTP.call('GET', 'http://api.songkick.com/api/3.0/artists/' + id + '/calendar.json', {
 				params: {
 					'apikey': 'bDyVjvzkBKKWmU07' 
 				}
@@ -46,7 +45,6 @@ if (Meteor.isServer) {
 					if (error) {
 						myFuture.throw(error);
 					}	else {
-						console.log(response.data.resultsPage.results.event[0]);
 						myFuture.return(response.data);
 					}
 			});
