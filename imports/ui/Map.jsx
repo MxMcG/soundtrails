@@ -13,14 +13,37 @@ export default class Map extends Component {
 	constructor(props) {
 		super(props);
 		this.createMarkers = this.createMarkers.bind(this);
+		this.createMap = this.createMap.bind(this);
 		this.setupMarkers = this.setupMarkers.bind(this);
 		this.removeMarkers = this.removeMarkers.bind(this);
+		this.getUserCoords = this.getUserCoords.bind(this);
 		this.initMap = this.initMap.bind(this);
 	}
 
-	componentDidMount() {
-	  this.initMap();  
+	componentWillMount() {
+	 this.getUserCoords(this.createMap);     
 	}
+
+	componentDidMount() {
+	  this.createMap();
+	}
+
+	createMap() {
+		console.log(this.userCoords)
+		if (!this.userCoords) {
+			this.createMap();	
+		} else {
+			this.initMap();
+		}
+	}
+
+	getUserCoords(callback) {
+		var userLocation = navigator.geolocation.getCurrentPosition(function (position) {
+			this.userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+		});
+		callback();
+	}
+
 
 	setupMarkers(coords, content) {
 		this.removeMarkers(coords, content);
@@ -42,6 +65,15 @@ export default class Map extends Component {
         infoWindow.open(map.instance, this);
       });
 
+      var tourPath = new google.maps.Polyline({
+		    path: coords,
+		    geodesic: true,
+		    map: this.map,
+		    strokeColor: '#FF0000',
+		    strokeOpacity: 1.0,
+		    strokeWeight: 1
+		  });
+
 		 	MARKERS.push(marker);
 		}
 	}
@@ -55,10 +87,12 @@ export default class Map extends Component {
 	}
 
 	initMap() {
+		var userCoords = this.userCoords || {lat: 37, lng: -122}
 		this.map = new google.maps.Map(document.getElementById('map'), {
-		  center: {lat: 37.7749, lng: -122.4194},
-		  zoom: 3
+		  center: userCoords,
+		  zoom: 6
 		});
+
 	}
 
   render() {

@@ -15,7 +15,6 @@ export default class Search extends Component {
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
-		console.log('events', eventsArray);
 		for (var i = 0; i < eventsCount; i++) {
 			var eventTitle = eventsArray[i].displayName;
 			var eventCity = eventsArray[i].location.city;
@@ -24,7 +23,10 @@ export default class Search extends Component {
 			var eventUrl = eventsArray[i].uri;
 			var eventVenue = eventsArray[i].venue.displayName;
 
-			var indLatLng = {lat: eventsArray[i].location.lat, lng: eventsArray[i].location.lng};
+			var indLatLng = {
+				lat: eventsArray[i].location.lat, 
+				lng: eventsArray[i].location.lng
+			};
 			var indContent = {
 				eTitle: eventTitle,
 				eCity: eventCity,	

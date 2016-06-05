@@ -35,8 +35,6 @@ if (Meteor.isServer) {
 			Future = Npm.require('fibers/future');
 			var myFuture = new Future();
 
-			console.log(id);
-
 			HTTP.call('GET', 'http://api.songkick.com/api/3.0/artists/' + id + '/calendar.json', {
 				params: {
 					'apikey': Meteor.settings.songkickApi 
