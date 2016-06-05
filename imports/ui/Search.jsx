@@ -13,12 +13,32 @@ export default class Search extends Component {
 
 	createLocations(eventsArray) {
 		var latLong = [];
+		var content = [];
 		var eventsCount = eventsArray.length;
+		console.log('events', eventsArray);
 		for (var i = 0; i < eventsCount; i++) {
-			var indLatLng = {lat: eventsArray[i].location.lat, lng: eventsArray[i].location.lng}
+			var eventTitle = eventsArray[i].displayName;
+			var eventCity = eventsArray[i].location.city;
+			var eventDate = eventsArray[i].start.date;
+			var eventTime = eventsArray[i].start.time;
+			var eventUrl = eventsArray[i].uri;
+			var eventVenue = eventsArray[i].venue.displayName;
+
+			var indLatLng = {lat: eventsArray[i].location.lat, lng: eventsArray[i].location.lng};
+			var indContent = {
+				eTitle: eventTitle,
+				eCity: eventCity,	
+				eDate: eventDate,
+				eTime: eventTime,
+				eUrl: eventUrl,
+				eVenue: eventVenue
+			}
+
 			latLong.push(indLatLng);
+			content.push(indContent);
 		}
-		return this.props.createMarkers(latLong);
+
+		return this.props.setupMarkers(latLong, content);
 	}
 
 	getArtistId(artist, callback) {
@@ -70,5 +90,5 @@ export default class Search extends Component {
 }
 
 Search.propTypes = {
-	createMarkers: React.PropTypes.func
+	setupMarkers: React.PropTypes.func
 };

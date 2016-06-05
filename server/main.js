@@ -18,7 +18,7 @@ if (Meteor.isServer) {
 			HTTP.call('GET', 'http://api.songkick.com/api/3.0/search/artists.json?', {
 				params: {
 					'query': artist,
-					'apikey': 'bDyVjvzkBKKWmU07' 
+					'apikey': Meteor.settings.songkickApi 
 				}
 				}, function (error, response) {
 					if (error) {
@@ -39,7 +39,7 @@ if (Meteor.isServer) {
 
 			HTTP.call('GET', 'http://api.songkick.com/api/3.0/artists/' + id + '/calendar.json', {
 				params: {
-					'apikey': 'bDyVjvzkBKKWmU07' 
+					'apikey': Meteor.settings.songkickApi 
 				}
 				}, function (error, response) {
 					if (error) {
