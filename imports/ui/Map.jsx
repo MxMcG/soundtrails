@@ -13,7 +13,6 @@ export default class Map extends Component {
 	constructor(props) {
 		super(props);
 		this.createMarkers = this.createMarkers.bind(this);
-		this.createMap = this.createMap.bind(this);
 		this.setupMarkers = this.setupMarkers.bind(this);
 		this.removeMarkers = this.removeMarkers.bind(this);
 		this.getUserCoords = this.getUserCoords.bind(this);
@@ -21,29 +20,20 @@ export default class Map extends Component {
 	}
 
 	componentWillMount() {
-	 this.getUserCoords(this.createMap);     
+	 
 	}
 
 	componentDidMount() {
-	  this.createMap();
+	  this.getUserCoords();
 	}
 
-	createMap() {
-		console.log(this.userCoords)
-		if (!this.userCoords) {
-			this.createMap();	
-		} else {
-			this.initMap();
-		}
-	}
-
-	getUserCoords(callback) {
+	getUserCoords() {
+		var self = this;
 		var userLocation = navigator.geolocation.getCurrentPosition(function (position) {
-			this.userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
-		});
-		callback();
+			var userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+			self.initMap(userCoords);
+		})
 	}
-
 
 	setupMarkers(coords, content) {
 		this.removeMarkers(coords, content);
@@ -86,13 +76,11 @@ export default class Map extends Component {
 		this.createMarkers(coords, content);
 	}
 
-	initMap() {
-		var userCoords = this.userCoords || {lat: 37, lng: -122}
+	initMap(coords) { 
 		this.map = new google.maps.Map(document.getElementById('map'), {
-		  center: userCoords,
+		  center: coords,
 		  zoom: 6
 		});
-
 	}
 
   render() {
