@@ -79,16 +79,46 @@ export default class Search extends Component {
 		this.setState({ artist: e.target.value })
 	}
 
+
   render() {
+
+  $(".btn").on("click", function() {
+  	$(".former").addClass("transitionOut");
+  	$(".video").addClass("zoomIn");
+  	
+  setTimeout( function() {
+  	$(".video").fadeOut();
+  }, 2000);
+  	
+  });
+
+
+   	$(".search").on("click", function() {
+  		$(".former").toggleClass("transitionOut");
+  	});
+
+
+
+
+
+
     return (
-      <div>
-      	<form onSubmit={this.handleSubmit}>
-	        <input type='text' placeholder='enter artist' onChange={this.handleChange}/>
-	        <input type='submit' defaultValue='enter' />
-	      </form>  
+      <div className="former">
+      	<div className="wrapped_form">
+	      	<h3 className="search-title">Follow the trail of your favorite artists!</h3>
+	      	<form onSubmit={this.handleSubmit}>
+	      	<div className="input-field col s6">
+		        <input type='text' onChange={this.handleChange}/>
+		        <label htmlFor="input_text">Enter Artist</label>
+		      </div>
+		        <input type='submit' className="waves-effect waves-light btn" defaultValue='enter'/>
+		      </form>  
+		    </div>
       </div>
     );
   }
+
+
 }
 
 Search.propTypes = {

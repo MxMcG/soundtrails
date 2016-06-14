@@ -84,10 +84,12 @@ export default class Map extends Component {
 	}
 
   render() {
+ 
     return (
     	<div className='mapWrap'>
+    		<a className="btn-floating btn-large waves-effect waves-light search"><i className="material-icons">search</i></a>
 	    	<Search setupMarkers={this.setupMarkers} />
-				<div id='map' style={{width: '400px', height: '300px'}}></div>
+				<div id='map' style={{width: '100%', height: '100%', margin: 'auto', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}></div>
 			</div>	
     );
   }
