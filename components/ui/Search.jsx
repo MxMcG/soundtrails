@@ -12,6 +12,7 @@ export default class Search extends Component {
 	}
 
 	createLocations(eventsArray) {
+		console.log('3')
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
@@ -44,21 +45,32 @@ export default class Search extends Component {
 	}
 
 	getArtistId(artist, callback) {
+		console.log('1')
 		Meteor.call('fetchArtistId', artist, function (err, res) {
 			if (err) {
 				return err;
 			} else {
-				callback(res);
+				if (!res.data.resultsPage.results.artist) {
+					Materialize.toast(artist + ' Cannot Be Found', 10000);
+				} else {
+					callback(res.data.resultsPage.results.artist[0].id, artist);
+				}
 			}
 		});
 	}
 
-	getArtistCalendar(id, callback) {
+	getArtistCalendar(id, callback, artistName) {
+		console.log('2')
 		return Meteor.call('fetchArtistCalendar', id, function (err, res) {
 			if (err) {
 				return err;
 			} else {
-				callback(res.resultsPage.results.event);
+				if (!res.data.resultsPage.results.event) {
+					Materialize.toast(artistName + ' Is Not On Tour', 10000);
+				} else {
+					var calendarData = JSON.parse(res.content);
+					callback(calendarData.resultsPage.results.event);
+				}
 			}
 		});
 	}
@@ -70,38 +82,23 @@ export default class Search extends Component {
 		this.getArtistId(artist, function (id) {
 			self.getArtistCalendar(id, function (eventsArray) {
 				self.createLocations(eventsArray);
-			});	
+			}, artist);	
 		});
-		
 	}	
 
 	handleChange(e) {
 		this.setState({ artist: e.target.value })
 	}
 
+	searchTransition() {
+		$(".former").addClass("transitionOut");
+  	$(".video").addClass("zoomIn");
+	  setTimeout( function() {
+	  	$(".video").fadeOut();
+	  }, 2000);
+	}
 
   render() {
-
-  $(".btn").on("click", function() {
-  	$(".former").addClass("transitionOut");
-  	$(".video").addClass("zoomIn");
-  	
-  setTimeout( function() {
-  	$(".video").fadeOut();
-  }, 2000);
-  	
-  });
-
-
-   	$(".search").on("click", function() {
-  		$(".former").toggleClass("transitionOut");
-  	});
-
-
-
-
-
-
     return (
       <div className="former">
       	<div className="wrapped_form">
@@ -111,14 +108,13 @@ export default class Search extends Component {
 		        <input type='text' onChange={this.handleChange}/>
 		        <label htmlFor="input_text">Enter Artist</label>
 		      </div>
-		        <input type='submit' className="waves-effect waves-light btn" defaultValue='enter'/>
+		        <input type='submit' className="waves-effect waves-light btn" defaultValue='enter'
+		        	onClick={this.searchTransition} />
 		      </form>  
 		    </div>
       </div>
     );
   }
-
-
 }
 
 Search.propTypes = {

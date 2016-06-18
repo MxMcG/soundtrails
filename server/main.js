@@ -8,7 +8,6 @@ Meteor.startup(() => {
 
 if (Meteor.isServer) {
 
-
 	Meteor.methods({
 
 		fetchArtistId(artist) {
@@ -16,15 +15,15 @@ if (Meteor.isServer) {
 			var myFuture = new Future();
 
 			HTTP.call('GET', 'http://api.songkick.com/api/3.0/search/artists.json?', {
-				params: {
-					'query': artist,
-					'apikey': Meteor.settings.songkickApi 
-				}
+					params: {
+						'query': artist,
+						'apikey': Meteor.settings.songkickApi 
+					}
 				}, function (error, response) {
 					if (error) {
-						myFuture.throw(error);
-					}	else {
-						myFuture.return(response.data.resultsPage.results.artist[0].id);
+						myFuture.return(error);
+					}	else {	
+						myFuture.return(response);
 					}
 			});
 
@@ -41,9 +40,9 @@ if (Meteor.isServer) {
 				}
 				}, function (error, response) {
 					if (error) {
-						myFuture.throw(error);
+						myFuture.return(error);
 					}	else {
-						myFuture.return(response.data);
+						myFuture.return(response);
 					}
 			});
 

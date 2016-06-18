@@ -6,6 +6,7 @@ import Search from './Search.jsx';
 
 /*Globals*/
 var MARKERS = [];
+var tourLine;
 
 /*React Component*/
 export default class Map extends Component {
@@ -16,6 +17,7 @@ export default class Map extends Component {
 		this.setupMarkers = this.setupMarkers.bind(this);
 		this.removeMarkers = this.removeMarkers.bind(this);
 		this.getUserCoords = this.getUserCoords.bind(this);
+		this.openSearchModal = this.openSearchModal.bind(this);
 		this.initMap = this.initMap.bind(this);
 	}
 
@@ -36,10 +38,24 @@ export default class Map extends Component {
 	}
 
 	setupMarkers(coords, content) {
+		console.log('4')
 		this.removeMarkers(coords, content);
 	}
 
+	removeMarkers(coords, content) {
+		console.log('5')
+		if (MARKERS.length >= 1) {	
+			for (var i = 0; i < MARKERS.length - 1; i++) {
+				MARKERS[i].setMap(null);
+			}
+			tourLine.setMap(null);
+			MARKERS = [];
+		}	
+		this.createMarkers(coords, content);
+	}
+
 	createMarkers(coords, content) {
+		console.log('6')
 		for (var i = 0; i < coords.length; i++) {
 			var markerContent = content[i];
 			var markerInfo = '<div class=\'infoBoxWrap\'><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + markerContent.eDate + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + markerContent.eTime + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
@@ -48,48 +64,49 @@ export default class Map extends Component {
 		    content: markerInfo,
 		    map: this.map,
 		  });
+		  if (i === 0) marker.setAnimation(google.maps.Animation.BOUNCE);
 
 			google.maps.event.addListener(marker, 'click', function() {
         var infoWindow = new google.maps.InfoWindow({});
         infoWindow.setContent(this.content);
         infoWindow.open(map.instance, this);
       });
-
-      var tourPath = new google.maps.Polyline({
-		    path: coords,
-		    geodesic: true,
-		    map: this.map,
-		    strokeColor: '#FF0000',
-		    strokeOpacity: 1.0,
-		    strokeWeight: 1
-		  });
-
 		 	MARKERS.push(marker);
-		}
+    };
+
+    tourLine = new google.maps.Polyline({
+	    path: coords,
+	    geodesic: true,
+	    strokeColor: '#FF0000',
+	    strokeOpacity: 1.0,
+	    strokeWeight: 1
+	  });
+	  tourLine.setMap(this.map);
 	}
 
-	removeMarkers(coords, content) {
-		for (var i = 0; i < MARKERS.length - 1; i++) {
-			MARKERS[i].setMap(null);
-		}
-		MARKERS = [];
-		this.createMarkers(coords, content);
-	}
 
 	initMap(coords) { 
 		this.map = new google.maps.Map(document.getElementById('map'), {
 		  center: coords,
-		  zoom: 6
+		  zoom: 4
 		});
 	}
 
+	openSearchModal() {
+		$(".former").toggleClass("transitionOut");
+	}	
+
   render() {
- 
     return (
     	<div className='mapWrap'>
-    		<a className="btn-floating btn-large waves-effect waves-light search"><i className="material-icons">search</i></a>
+    		<a className="btn-floating btn-large waves-effect waves-light search"
+    		  onClick={this.openSearchModal} >
+    		  <i className="material-icons">search</i>
+    		</a>
 	    	<Search setupMarkers={this.setupMarkers} />
-				<div id='map' style={{width: '100%', height: '100%', margin: 'auto', position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}></div>
+				<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
+				  position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}>
+				</div>
 			</div>	
     );
   }
