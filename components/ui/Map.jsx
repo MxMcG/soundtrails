@@ -58,7 +58,15 @@ export default class Map extends Component {
 		console.log('6')
 		for (var i = 0; i < coords.length; i++) {
 			var markerContent = content[i];
-			var markerInfo = '<div class=\'infoBoxWrap\'><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + markerContent.eDate + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + markerContent.eTime + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
+
+			var year = markerContent.eDate.substring(0, 4);
+			var day = markerContent.eDate.substring(8, 10);
+			var month = markerContent.eDate.substring(5, 7);
+			
+			var date = month + '/ ' + day + '/ ' + year;
+			var time = markerContent.eTime || 'N/A';
+
+			var markerInfo = '<div class=\'infoBoxWrap\'><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
 			var marker = new google.maps.Marker({
 		    position: coords[i],
 		    content: markerInfo,

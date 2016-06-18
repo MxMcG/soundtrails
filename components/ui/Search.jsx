@@ -16,7 +16,7 @@ export default class Search extends Component {
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
-		for (var i = 0; i < eventsCount; i++) {
+		for (var i = 0; i < eventsCount - 1; i++) {
 			var eventTitle = eventsArray[i].displayName;
 			var eventCity = eventsArray[i].location.city;
 			var eventDate = eventsArray[i].start.date;
