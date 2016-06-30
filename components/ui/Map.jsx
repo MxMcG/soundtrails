@@ -18,6 +18,7 @@ export default class Map extends Component {
 		this.removeMarkers = this.removeMarkers.bind(this);
 		this.getUserCoords = this.getUserCoords.bind(this);
 		this.openSearchModal = this.openSearchModal.bind(this);
+		this.setCenter = this.setCenter.bind(this);
 		this.initMap = this.initMap.bind(this);
 	}
 
@@ -35,6 +36,10 @@ export default class Map extends Component {
 			var userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
 			self.initMap(userCoords);
 		})
+	}
+
+	setCenter(coords) {
+		this.initMap(coords);
 	}
 
 	setupMarkers(coords, content) {
@@ -56,40 +61,53 @@ export default class Map extends Component {
 
 	createMarkers(coords, content) {
 		console.log('6')
+		var self = this;
+		this.setCenter(coords[0]);
 		for (var i = 0; i < coords.length; i++) {
-			var markerContent = content[i];
+			if (coords[i].lat != null) {
+				var markerContent = content[i];
 
-			var year = markerContent.eDate.substring(0, 4);
-			var day = markerContent.eDate.substring(8, 10);
-			var month = markerContent.eDate.substring(5, 7);
-			
-			var date = month + '/ ' + day + '/ ' + year;
-			var time = markerContent.eTime || 'N/A';
+				var year = markerContent.eDate.substring(0, 4);
+				var day = markerContent.eDate.substring(8, 10);
+				var month = markerContent.eDate.substring(5, 7);
+				
+				var date = month + '/ ' + day + '/ ' + year;
+				var time = markerContent.eTime || 'N/A';
 
-			var markerInfo = '<div class=\'infoBoxWrap\'><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
-			var marker = new google.maps.Marker({
-		    position: coords[i],
-		    content: markerInfo,
-		    map: this.map,
-		  });
-		  if (i === 0) marker.setAnimation(google.maps.Animation.BOUNCE);
+				var markerInfo = '<div class=\'infoBoxWrap\'><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
+				var marker = new google.maps.Marker({
+			    position: coords[i],
+			    content: markerInfo,
+			    map: self.map,
+			  });
 
-			google.maps.event.addListener(marker, 'click', function() {
-        var infoWindow = new google.maps.InfoWindow({});
-        infoWindow.setContent(this.content);
-        infoWindow.open(map.instance, this);
-      });
-		 	MARKERS.push(marker);
-    };
+			  // The most upcoming artist event
+			  if (i === 0) {
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+			  }	
+
+				google.maps.event.addListener(marker, 'click', function() {
+	        var infoWindow = new google.maps.InfoWindow({});
+	        infoWindow.setContent(this.content);
+	        infoWindow.open(map.instance, this);
+	      });
+			 	MARKERS.push(marker);
+	    };
+	  }  
+
+	  var cleanCoords = coords.filter(function(coord) {
+	  	return (coord.lat !== null);
+	  });
 
     tourLine = new google.maps.Polyline({
-	    path: coords,
+	    path: cleanCoords,
 	    geodesic: true,
 	    strokeColor: '#FF0000',
 	    strokeOpacity: 1.0,
 	    strokeWeight: 1
 	  });
 	  tourLine.setMap(this.map);
+	 
 	}
 
 
