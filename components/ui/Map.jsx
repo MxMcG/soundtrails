@@ -19,11 +19,9 @@ export default class Map extends Component {
 		this.getUserCoords = this.getUserCoords.bind(this);
 		this.openSearchModal = this.openSearchModal.bind(this);
 		this.setCenter = this.setCenter.bind(this);
+		this.setInfoWindow = this.setInfoWindow.bind(this);
+		this.addCloseListener = this.addCloseListener.bind(this);
 		this.initMap = this.initMap.bind(this);
-	}
-
-	componentWillMount() {
-	 
 	}
 
 	componentDidMount() {
@@ -40,6 +38,20 @@ export default class Map extends Component {
 
 	setCenter(coords) {
 		this.initMap(coords);
+	}
+
+	setInfoWindow(marker) {
+		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
+		infoWindow.innerHTML = marker.content;
+		this.addCloseListener();
+	}
+
+	addCloseListener() {
+		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
+		var closeButton = document.getElementsByClassName('closeWindow')[0];
+		closeButton.addEventListener('click', function () {
+			infoWindow.innerHTML = '';
+		});
 	}
 
 	setupMarkers(coords, content) {
@@ -74,7 +86,7 @@ export default class Map extends Component {
 				var date = month + '/ ' + day + '/ ' + year;
 				var time = markerContent.eTime || 'N/A';
 
-				var markerInfo = '<div class=\'infoBoxWrap\'><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
+				var markerInfo = '<div class=\'infoBoxWrap\'><div class=\'closeWindow\'></div><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
 				var marker = new google.maps.Marker({
 			    position: coords[i],
 			    content: markerInfo,
@@ -87,9 +99,11 @@ export default class Map extends Component {
 			  }	
 
 				google.maps.event.addListener(marker, 'click', function() {
-	        var infoWindow = new google.maps.InfoWindow({});
+					console.log(marker);
+	        self.setInfoWindow(marker);
+	        /*var infoWindow = new google.maps.InfoWindow({});
 	        infoWindow.setContent(this.content);
-	        infoWindow.open(map.instance, this);
+	        infoWindow.open(map.instance, this);*/
 	      });
 			 	MARKERS.push(marker);
 	    };
@@ -124,16 +138,19 @@ export default class Map extends Component {
 
   render() {
     return (
-    	<div className='mapWrap'>
-    		<a className="btn-floating btn-large waves-effect waves-light search"
-    		  onClick={this.openSearchModal} >
-    		  <i className="material-icons">search</i>
-    		</a>
-	    	<Search setupMarkers={this.setupMarkers} />
-				<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
-				  position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}>
-				</div>
-			</div>	
+    	<div className='mapContainer'>
+	    	<div className='mapWrap'>
+	    		<a className='btn-floating btn-large waves-effect waves-light search'
+	    		  onClick={this.openSearchModal} >
+	    		  <i className="material-icons">search</i>
+	    		</a>
+		    	<Search setupMarkers={this.setupMarkers} />
+					<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
+					  position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}>
+					</div>
+					<div className='slideUnderInfoBox'></div>
+				</div>	
+			</div>
     );
   }
 }
