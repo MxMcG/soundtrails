@@ -40,9 +40,9 @@ export default class Map extends Component {
 		this.initMap(coords);
 	}
 
-	setInfoWindow(marker) {
+	setInfoWindow(content) {
 		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
-		infoWindow.innerHTML = marker.content;
+		infoWindow.innerHTML = content;
 		this.addCloseListener();
 	}
 
@@ -86,7 +86,7 @@ export default class Map extends Component {
 				var date = month + '/ ' + day + '/ ' + year;
 				var time = markerContent.eTime || 'N/A';
 
-				var markerInfo = '<div class=\'infoBoxWrap\'><div class=\'closeWindow\'></div><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
+				var markerInfo = '<div class=\'infoBoxWrap\' modal-footer><div class=\'closeWindow\'></div><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
 				var marker = new google.maps.Marker({
 			    position: coords[i],
 			    content: markerInfo,
@@ -99,8 +99,7 @@ export default class Map extends Component {
 			  }	
 
 				google.maps.event.addListener(marker, 'click', function() {
-					console.log(marker);
-	        self.setInfoWindow(marker);
+	        self.setInfoWindow(this.content);
 	        /*var infoWindow = new google.maps.InfoWindow({});
 	        infoWindow.setContent(this.content);
 	        infoWindow.open(map.instance, this);*/
