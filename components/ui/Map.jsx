@@ -21,6 +21,7 @@ export default class Map extends Component {
 		this.setCenter = this.setCenter.bind(this);
 		this.setInfoWindow = this.setInfoWindow.bind(this);
 		this.addCloseListener = this.addCloseListener.bind(this);
+		this.animatePath = this.animatePath.bind(this);
 		this.initMap = this.initMap.bind(this);
 	}
 
@@ -69,6 +70,7 @@ export default class Map extends Component {
 			MARKERS = [];
 		}	
 		this.createMarkers(coords, content);
+		this.animatePath(coords);
 	}
 
 	createMarkers(coords, content) {
@@ -100,15 +102,13 @@ export default class Map extends Component {
 
 				google.maps.event.addListener(marker, 'click', function() {
 	        self.setInfoWindow(this.content);
-	        /*var infoWindow = new google.maps.InfoWindow({});
-	        infoWindow.setContent(this.content);
-	        infoWindow.open(map.instance, this);*/
 	      });
+
 			 	MARKERS.push(marker);
 	    };
 	  }  
 
-	  var cleanCoords = coords.filter(function(coord) {
+	  /*var cleanCoords = coords.filter(function(coord) {
 	  	return (coord.lat !== null);
 	  });
 
@@ -119,10 +119,39 @@ export default class Map extends Component {
 	    strokeOpacity: 1.0,
 	    strokeWeight: 1
 	  });
-	  tourLine.setMap(this.map);
+	  tourLine.setMap(this.map);*/
 	 
 	}
 
+	animatePath(coords) {
+
+		var cleanCoords = coords.filter(function(coord) {
+	  	return (coord.lat !== null);
+	  });
+
+		var departure = new google.maps.LatLng(cleanCoords[0].lat, cleanCoords[0].lng); //Set to whatever lat/lng you need for your departure location
+		var arrival = new google.maps.LatLng(cleanCoords[1].lat, cleanCoords[1].lng); //Set to whatever lat/lng you need for your arrival location
+		var line = new google.maps.Polyline({
+		    path: [departure, departure],
+		    strokeColor: "#FF0000",
+		    strokeOpacity: 1,
+		    strokeWeight: 3,
+		    geodesic: true, //set to false if you want straight line instead of arc
+		    map: this.map,
+		});
+		var step = 0;
+		var numSteps = 250; //Change this to set animation resolution
+		var timePerStep = 5; //Change this to alter animation speed
+		var interval = setInterval(function() {
+		   step += 1;
+		   if (step > numSteps) {
+		       clearInterval(interval);
+		   } else {
+		       var are_we_there_yet = google.maps.geometry.spherical.interpolate(departure, arrival, step/numSteps);
+		       line.setPath([departure, are_we_there_yet]);
+		   }
+		}, timePerStep);
+	}
 
 	initMap(coords) { 
 		this.map = new google.maps.Map(document.getElementById('map'), {
