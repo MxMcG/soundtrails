@@ -54,8 +54,9 @@ export default class Map extends Component {
 	addCloseListener() {
 		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
 		var closeButton = document.getElementsByClassName('closeWindow')[0];
+		closeButton.innerHTML = '<i class="fa fa-times close" aria-hidden="true"></i>';
 		closeButton.addEventListener('click', function () {
-			infoWindow.innerHTML = '';
+			document.getElementsByClassName('slid')[0].classList.remove('slid');
 		});
 	}
 
@@ -96,7 +97,7 @@ export default class Map extends Component {
 				var date = month + '/ ' + day + '/ ' + year;
 				var time = markerContent.eTime || 'N/A';
 
-				var markerInfo = '<div class=\'infoBoxWrap\' modal-footer><div class=\'closeWindow\'></div><p>Title: ' + markerContent.eTitle + '</p><p>Date: ' + date + '</p><p>Venue: ' + markerContent.eVenue + '</p><p>City: ' + markerContent.eCity + '</p><p>Time: ' + time + '</p><a href=' + markerContent.eUrl + '>Tickets</a></div>'; 
+				var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i> ' + markerContent.eTitle + '</p><p class=\'items\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i> ' + date + '</p><p class=\'items\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i> ' + markerContent.eVenue + '</p><p class=\'items\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i> ' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i> ' + time + '</p></div><a href=' + markerContent.eUrl + ' class=\'link\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a></div>'; 
 				var marker = new google.maps.Marker({
 			    position: coords[i],
 			    content: markerInfo,
@@ -110,6 +111,9 @@ export default class Map extends Component {
 
 				google.maps.event.addListener(marker, 'click', function() {
 	        self.setInfoWindow(this.content);
+
+	        document.getElementsByClassName('slideUnderInfoBox')[0].classList.add('slid');
+
 	      });
 
 			 	this.state.markers.push(marker);
@@ -162,7 +166,9 @@ export default class Map extends Component {
 	}
 
 	openSearchModal() {
-		$(".former").toggleClass("transitionOut");
+		document.getElementsByClassName('former')[0].classList.toggle('transitionOut');
+		document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
+		document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 	}	
 
   render() {
@@ -172,6 +178,7 @@ export default class Map extends Component {
 	    		<a className='btn-floating btn-large waves-effect waves-light search'
 	    		  onClick={this.openSearchModal} >
 	    		  <i className="material-icons">search</i>
+	    		  <i className="fa fa-times searchClick close" aria-hidden="true"></i>
 	    		</a>
 		    	<Search setupMarkers={this.setupMarkers} />
 					<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
