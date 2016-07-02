@@ -91,11 +91,18 @@ export default class Search extends Component {
 	}
 
 	searchTransition() {
-		$(".former").addClass("transitionOut");
-  	$(".video").addClass("zoomIn");
-	  setTimeout( function() {
-	  	$(".video").fadeOut();
-	  }, 2000);
+  	document.getElementsByClassName('former')[0].classList.add('transitionOut');
+  	setTimeout(function() {
+  		document.getElementsByClassName('video')[0].classList.add('zoomIn');
+  	},2000);  	
+	  		var s = document.getElementsByClassName('video')[0].style;
+				s.opacity = 1;
+				(function fade(){(s.opacity-=.1)<0?s.display="none":setTimeout(fade,300)})();
+
+		if (document.getElementsByClassName('video')[0].classList.contains('zoomIn') == true) {
+			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
+			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
+		}
 	}
 
   render() {
