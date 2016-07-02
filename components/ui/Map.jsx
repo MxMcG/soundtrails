@@ -5,9 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import Search from './Search.jsx';
 
 /*Globals*/
-var MARKERS = [];
 var tourLine;
-var COUNTER = 0;
 var RUNPATH;
 
 /*React Component*/
@@ -25,6 +23,10 @@ export default class Map extends Component {
 		this.addCloseListener = this.addCloseListener.bind(this);
 		this.animatePath = this.animatePath.bind(this);
 		this.initMap = this.initMap.bind(this);
+		this.state = {
+			counter: 0,
+			markers: []
+		};	
 	}
 
 	componentDidMount() {
@@ -64,15 +66,17 @@ export default class Map extends Component {
 
 	removeMarkers(coords, content) {
 		console.log('5')
-		if (MARKERS.length >= 1) {	
-			for (var i = 0; i < MARKERS.length - 1; i++) {
-				MARKERS[i].setMap(null);
+		var markers = this.state.markers;
+		if (markers.length >= 1) {	
+			for (var i = 0; i < markers.length - 1; i++) {
+				markers[i].setMap(null);
 			}
-			// tourLine.setMap(null);
-			MARKERS = [];
+			markers = [];
 		}	
 		clearInterval(RUNPATH);
-		COUNTER = 0;
+		this.setState({
+			counter: 0
+		});
 		this.createMarkers(coords, content);
 		this.animatePath(coords);
 	}
@@ -108,7 +112,7 @@ export default class Map extends Component {
 	        self.setInfoWindow(this.content);
 	      });
 
-			 	MARKERS.push(marker);
+			 	this.state.markers.push(marker);
 	    };
 	  }  
 	}
@@ -116,12 +120,13 @@ export default class Map extends Component {
 	animatePath(coords) {
 		var i;
 		var self = this;
+		var counter = this.state.counter;
 		var cleanCoords = coords.filter(function(coord) {
 	  	return (coord.lat !== null);
 	  }); 
-	  if (cleanCoords[COUNTER + 1] !== undefined) {	
-			var departure = new google.maps.LatLng(cleanCoords[COUNTER].lat, cleanCoords[COUNTER].lng); //Set to whatever lat/lng you need for your departure location
-			var arrival = new google.maps.LatLng(cleanCoords[COUNTER + 1].lat, cleanCoords[COUNTER + 1].lng); //Set to whatever lat/lng you need for your arrival location
+	  if (cleanCoords[counter + 1] !== undefined) {	
+			var departure = new google.maps.LatLng(cleanCoords[counter].lat, cleanCoords[counter].lng); //Set to whatever lat/lng you need for your departure location
+			var arrival = new google.maps.LatLng(cleanCoords[counter + 1].lat, cleanCoords[counter + 1].lng); //Set to whatever lat/lng you need for your arrival location
 			var tourLine = new google.maps.Polyline({
 			    path: [departure, departure],
 			    strokeColor: "#FF0000",
@@ -136,7 +141,7 @@ export default class Map extends Component {
 			RUNPATH = setInterval(function() {
 			   step += 1;
 			   if (step > numSteps) {
-			   		COUNTER += 1;
+			   		self.setState({counter: counter + 1});
 			      window.clearInterval(RUNPATH);
 			      self.animatePath(coords);
 			   } else {
@@ -145,7 +150,7 @@ export default class Map extends Component {
 			   }
 			}, timePerStep);
 		} else {
-			COUNTER = 0;
+			this.setState({ counter: 0 });
 		}
 	}
 
