@@ -53,7 +53,6 @@ export default class Search extends Component {
 				if (!res.data.resultsPage.results.artist) {
 					Materialize.toast(artist + ' Cannot Be Found', 10000);
 				} else {
-					console.log(res.data.resultsPage.results.artist[0])
 					callback(res.data.resultsPage.results.artist[0].id, artist);
 				}
 			}
