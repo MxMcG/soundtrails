@@ -12,15 +12,15 @@ export default class Search extends Component {
 	}
 
 	createLocations(eventsArray) {
-		console.log('3')
+		console.log('3');
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
-		for (var i = 0; i < eventsCount - 1; i++) {
+		for (var i = 0; i <= eventsCount - 1; i++) {
 			var eventTitle = eventsArray[i].displayName;
 			var eventCity = eventsArray[i].location.city;
 			var eventDate = eventsArray[i].start.date;
-			var eventTime = eventsArray[i].start.time;
+			var eventTime = eventsArray[i].start.time
 			var eventUrl = eventsArray[i].uri;
 			var eventVenue = eventsArray[i].venue.displayName;
 
@@ -36,7 +36,7 @@ export default class Search extends Component {
 				eUrl: eventUrl,
 				eVenue: eventVenue
 			}
-
+			
 			latLong.push(indLatLng);
 			content.push(indContent);
 		}

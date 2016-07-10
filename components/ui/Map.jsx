@@ -61,7 +61,7 @@ export default class Map extends Component {
 	}
 
 	setupMarkers(coords, content) {
-		console.log('4')
+		console.log('4');
 		this.removeMarkers(coords, content);
 	}
 
@@ -90,14 +90,33 @@ export default class Map extends Component {
 			if (coords[i].lat != null) {
 				var markerContent = content[i];
 
+				// Properly Format Date
 				var year = markerContent.eDate.substring(0, 4);
 				var day = markerContent.eDate.substring(8, 10);
 				var month = markerContent.eDate.substring(5, 7);
-				
 				var date = month + '/ ' + day + '/ ' + year;
-				var time = markerContent.eTime || 'N/A';
+				
+				//Properly Format Time
+				var time = markerContent.eTime;
+				if (Boolean(time)) {
+					var parts = time.split(':'),
+			      hour = parts[0],
+			      minutes = parts[1];
 
-				var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i> ' + markerContent.eTitle + '</p><p class=\'items\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i> ' + date + '</p><p class=\'items\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i> ' + markerContent.eVenue + '</p><p class=\'items\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i> ' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i> ' + time + '</p></div><a href=' + markerContent.eUrl + ' class=\'link\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a></div>'; 
+			    if (hour > 12) {
+			      time = (hour - 12) + ':' + minutes + 'pm';
+			    } else if (hour == 0) {
+			      time = 12 + ':' + minutes + 'am';
+			    } else if (hour == 12) {
+			      time += 'pm';
+			    } else {
+			      time += 'am';
+			    }
+			  } else {
+			  	time = 'To Be Determined';
+			  } 	
+
+				var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><img src=\'/img/songkick-logo.png\'><p class=\'items\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i> ' + markerContent.eTitle + '</p><p class=\'items\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i> ' + date + '</p><p class=\'items\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i> ' + markerContent.eVenue + '</p><p class=\'items\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i> ' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i> ' + time + '</p></div><a href=' + markerContent.eUrl + ' class=\'link\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a></div>'; 
 				var marker = new google.maps.Marker({
 			    position: coords[i],
 			    content: markerInfo,
@@ -184,6 +203,7 @@ export default class Map extends Component {
 					<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
 					  position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}>
 					</div>
+					<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
 					<div className='slideUnderInfoBox'></div>
 				</div>	
 			</div>
