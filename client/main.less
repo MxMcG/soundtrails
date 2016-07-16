@@ -28,7 +28,6 @@ body {
     background-image: url(/img/space_background.png);
     background-size: cover;
     width: 100%;
-    transition-delay: 2s;
     height: 100%;
     transition: all 2s cubic-bezier(0.680, 0, 0.265, 1);
   }
@@ -41,14 +40,15 @@ body {
 @keyframes rotater {
   0%, 100% {
     transform: rotate(0deg);
+
   }
 
   50% {
-    transform: rotate(25deg);
+    transform: rotate(-25deg);
   }
 
   75% {
-    transform: rotate(-25deg);
+    transform: rotate(25deg);
   }
 }
 
@@ -111,7 +111,7 @@ body {
   overflow: hidden;
   position: absolute;
   top: 50%;
-  transform: scale3d(1, 1, 1) translateY(-50%) rotateY(0deg);
+  transform: scale3d(1, 1, 1) translateY(-50%) rotate(0deg) translateZ(0px);
   transition: all 1s cubic-bezier(0.680, 0, 0.265, 1.25);
   z-index: 3;
   background: rgba(255, 255, 255, 1);
@@ -142,13 +142,16 @@ body {
 
 .transitionOut {
   transition: all 1s ease-out;
-  transform: scale3d(.5, .5, 1) translateY(-50%) rotateY(120deg);
+  transform: scale3d(0, 0, 1) translateY(-50%) rotate(25deg) translateZ(0px);;
   opacity: 0;
 }
 
+.displayNone {
+  display:none;
+}
 
 .zoomIn {
-  transform: scale(3);
+  transform: scale3d(3, 3, 1);
   transition: transform 2s ease-in;
   opacity: 0;
 }
@@ -173,7 +176,6 @@ body {
 }
 
 .information {
-  float: left;
   width: 70%;
 }
 
@@ -191,17 +193,20 @@ body {
 }
 
 .link {
-  float: right;
+  display: block;
   height: 100%;
-  width: 25%;
-  font-weight: 300;
+  margin-top: 1em;
+  width: 40%;
+  font-weight: 700;
   color: white;
-  background: #0075A2;
+  background: #FF6B6B;
   letter-spacing: 2px;
   line-height: 167.5px;
   text-align: center;
   display: block;
   border-radius: 3px;
+  font-size: 15px;
+  text-transform: uppercase;
 
   i {
     padding-right: 5px;
@@ -235,6 +240,14 @@ input[type=text] {
 
 
 @media screen and (max-width: 500px) {
+
+  .former .wrapped_form .search-title {
+    margin: 0 0 20px 0;
+  }
+
+  .waves-input-wrapper {
+    width: 100%;
+  }
   .former{
 
     padding:25px;
@@ -245,3 +258,6 @@ input[type=text] {
     font-size: 15px;
    }
 }
+
+
+

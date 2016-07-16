@@ -196,8 +196,8 @@ export default class Map extends Component {
 	    	<div className='mapWrap'>
 	    		<a className='btn-floating btn-large waves-effect waves-light search'
 	    		  onClick={this.openSearchModal} >
-	    		  <i className="material-icons">search</i>
-	    		  <i className="fa fa-times searchClick close" aria-hidden="true"></i>
+	    		  <i className="material-icons searchClick">search</i>
+	    		  <i className="fa fa-times close" aria-hidden="true"></i>
 	    		</a>
 		    	<Search setupMarkers={this.setupMarkers} />
 					<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
