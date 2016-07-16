@@ -90,20 +90,32 @@ export default class Search extends Component {
 		this.setState({ artist: e.target.value })
 	}
 
+
+
 	searchTransition() {
+		var hasClass = false;
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('video')[0].classList.add('zoomIn');
+  		
   	},2000);  	
-	  		var s = document.getElementsByClassName('video')[0].style;
-				s.opacity = 1;
-				(function fade(){(s.opacity-=.1)<0?s.display="none":setTimeout(fade,300)})();
+    setTimeout(function() {
+    	document.getElementsByClassName('video')[0].classList.add('displayNone');
+    	hasClass = true;
+    }, 4000);
 
-		if (document.getElementsByClassName('video')[0].classList.contains('zoomIn') == true) {
+
+		if (hasClass = true) {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 		}
+			
 	}
+
+
+
+		
+
 
   render() {
     return (
