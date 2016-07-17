@@ -148,9 +148,9 @@ export default class Map extends Component {
 			}
 			var tourLine = new google.maps.Polyline({
 		    path: [departure, departure],
-		    strokeColor: "#FF0000",
+		    strokeColor: "#26a69a",
 		    strokeOpacity: 1,
-		    strokeWeight: 3,
+		    strokeWeight: 5,
 		    geodesic: true, //set to false if you want straight line instead of arc
 		    map: this.map
 			});
