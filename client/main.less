@@ -1,4 +1,6 @@
+* {
 
+}
 
 body {
    background-image: url(/img/space_background.png);
@@ -18,7 +20,43 @@ body {
     z-index: 3;
     
   }
+  .opener.former {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
 
+  .big-button {
+    background:rgba(255, 107, 107, .9);
+    font-family: 'Raleway', sans-serif;
+    display: inline-block;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 0px solid rgba(255, 107, 107, .9);
+    padding: 30px 0;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 100%;
+    border-top: none;
+    border-right: none;
+    outline: none;
+    border-left: none;
+    text-align: center;
+    transform: rotateX(0deg);
+    transform-style: preserve-3d;
+    transition: all .2s ease-out;
+    &:hover {
+      transform: rotateX(-25deg);
+     border-bottom: 3px solid rgba(255, 107, 107, .9);
+      background: rgba(255, 107, 107, 0.7);
+
+      
+    }
+
+    
+     
+   
+  }
 
   .video {
     position: absolute;
@@ -52,22 +90,30 @@ body {
   }
 }
 
+
 .slideUnderInfoBox {
   background: white;
   position: absolute;
   bottom: 0;
+  height: auto;
   width: 100%;
   left: 0;
   padding-right: 10px;
   transition: all .5s ease-out;
   transform: translateY(100%);
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 }
 
 .slid.slideUnderInfoBox {
   transform: translateY(0);
 }
 
+.fifty-block {
+  position:relative;
+  height: 100%;
+  width: 50%;
+  float: right;
+}
 
 .infoBoxWrap > p{
   padding: 10px 50px;
@@ -80,11 +126,15 @@ body {
 
 .songkickLogoMap {
   position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 75px;
 }
 
 .infoBoxWrap {
   position: relative;
-  padding: 10px 0px 0 50px;
+  padding: 10px 0px 0px 50px;
+  height: 194px;
 }
 
 .closeWindow {
@@ -107,6 +157,75 @@ body {
   display: none !important;
 }
 
+.former input, .former h3 {
+  opacity: 0;
+}
+
+
+
+.former.animation input {
+  opacity: 0;
+  animation: slideDown 1s ease;
+  animation-fill-mode: forwards;
+}
+
+.former.animation h3 {
+  opacity: 0;
+  animation: slideUp 1s ease;
+  animation-fill-mode: forwards;
+}
+
+
+
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+}
+
+
+*::-moz-placeholder{
+  color: darkgray;
+}
+
+*::-webkit-placeholder{
+  color: darkgray;
+}
+
+*::-ms-placeholder{
+  color: darkgray;
+}
+
+*::placeholder{
+  color: darkgray;
+}
+
+
+
+
+
+
+
 .former {
   overflow: hidden;
   position: absolute;
@@ -125,12 +244,15 @@ body {
   padding: 50px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 
+
+
   .wrapped_form {
   .search-title {
     font-family: 'Pacifico', cursive;
     color: #26a69a;
     text-align: center;
     margin: 0 0 60px 0;
+    transition: all .5s ease-out;
   }
 
   form {
@@ -141,7 +263,7 @@ body {
 }
 
 .transitionOut {
-  transition: all 1s ease-out;
+  transition: all 2s ease;
   transform: scale3d(0, 0, 1) translateY(-50%) rotate(25deg) translateZ(0px);;
   opacity: 0;
 }
@@ -176,7 +298,9 @@ body {
 }
 
 .information {
-  width: 70%;
+  float: left;
+  width: 50%;
+  height: 100%;
 }
 
 .information .items:first-child {
@@ -194,23 +318,40 @@ body {
 
 .link {
   display: block;
+  font-weight: 300;
   height: 100%;
-  margin-top: 1em;
-  width: 40%;
-  font-weight: 700;
+  line-height: 194px;
   color: white;
-  background: #FF6B6B;
+  background: rgba(255, 107, 107, .9);;
   letter-spacing: 2px;
-  line-height: 167.5px;
+  width: 100%;
+  text-align: center;
   text-align: center;
   display: block;
-  border-radius: 3px;
-  font-size: 15px;
+  float: right;
+  font-size: 14px;
   text-transform: uppercase;
+  border-bottom: 0px solid rgba(255, 107, 107, .9);
+  border-radius: 7px;
+  transition: all .2s ease-out;
+  &:hover {
+      border-bottom: 3px solid rgba(255, 107, 107, .9);
+      background: rgba(255, 107, 107, 0.7);
+      transform: rotateX(-15deg);
+      transform-style: preserve-3d;
+
+  }
 
   i {
     padding-right: 5px;
   }
+}
+
+.sk-logo {
+  width: 75px;
+  bottom: 7px;
+  position: absolute;
+  right: 10px;
 }
 
 .clearfix:after {
@@ -218,6 +359,8 @@ body {
   display: table;
   clear: both;
 }
+
+
 
 .clearfix:after {
    content: " "; /* Older browser do not support empty content */
@@ -239,7 +382,50 @@ input[type=text] {
 }
 
 
+@media screen and (max-width: 768px) {
+
+  .video video {
+    display: none;
+  }
+
+   body .video {
+    background-image: url(/img/poster.png);
+    background-position: center;
+    background-size: cover;
+  }
+
+  .slideUnderInfoBox {
+    padding-right: 50px;
+  }
+  .fifty-block {
+    float: none;
+    width: 100%;
+    margin: 10px auto 0 auto;
+    clear: both;
+    display: table;
+  }
+
+  .infoBoxWrap {
+    height: 100%;
+  }
+
+  .information {
+    float: none;
+    width: 100%;
+  }
+
+}
+
 @media screen and (max-width: 500px) {
+
+  body .big-button {
+
+    padding: 15px 0;
+  }
+
+  .songkickLogoMap {
+    display: none;
+  }
 
   .former .wrapped_form .search-title {
     margin: 0 0 20px 0;

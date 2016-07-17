@@ -126,6 +126,7 @@ export default class Map extends Component {
       });
 		 	this.state.markers.push(marker);
     };
+
 	}
 
 	animatePath(coords, content) {
