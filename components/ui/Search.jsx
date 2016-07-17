@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
+
 export default class Search extends Component {
 
 	constructor(props) {
@@ -113,21 +114,18 @@ export default class Search extends Component {
 	}
 
 
-
-		
-
-
   render() {
+
+
     return (
-      <div className="former">
+      <div className="former opener">
       	<div className="wrapped_form">
-	      	<h3 className="search-title">Follow the trail of your favorite artists!</h3>
+	      	<h3 className="search-title" >Follow the trail of your favorite artists!</h3>
 	      	<form onSubmit={this.handleSubmit}>
 	      	<div className="input-field col s6">
-		        <input type='text' onChange={this.handleChange}/>
-		        <label htmlFor="input_text">Enter Artist</label>
+		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange}/>
 		      </div>
-		        <input type='submit' className="waves-effect waves-light btn" defaultValue='enter'
+		        <input type="submit" className="big-button" defaultValue='enter'
 		        	onClick={this.searchTransition} />
 		      </form>  
 		    </div>
