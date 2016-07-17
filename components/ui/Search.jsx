@@ -66,7 +66,7 @@ export default class Search extends Component {
 				return err;
 			} else {
 				if (!res.data.resultsPage.results.event) {
-					Materialize.toast(artistName + ' Is Not On Tour', 10000);
+					Materialize.toast(artistName + ': Not On Tour', 10000);
 				} else {
 					var calendarData = JSON.parse(res.content);
 					callback(calendarData.resultsPage.results.event);
