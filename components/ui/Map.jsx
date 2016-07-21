@@ -74,11 +74,17 @@ export default class Map extends Component {
 			}
 			markers = [];
 		}	
+		// clear infowindow if still open
+		if (document.getElementsByClassName('slid')[0]) document.getElementsByClassName('slid')[0].classList.remove('slid');
+		// clear soundtrail path
 		clearInterval(RUNPATH);
+		// reset counter
 		this.setState({
 			counter: 0
 		});
+		// reset map center at coords up upcoming artist event
 		this.setCenter(coords[0]);
+		// begin to draw artist path
 		this.animatePath(coords, content);
 	}
 
