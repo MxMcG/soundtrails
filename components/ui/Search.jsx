@@ -97,11 +97,11 @@ export default class Search extends Component {
 		var hasClass = false;
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
-  		document.getElementsByClassName('video')[0].classList.add('zoomIn');
+  		document.getElementsByClassName('background')[0].classList.add('zoomIn');
   		
   	},2000);  	
     setTimeout(function() {
-    	document.getElementsByClassName('video')[0].classList.add('displayNone');
+    	document.getElementsByClassName('background')[0].classList.add('displayNone');
     	hasClass = true;
     }, 4000);
 

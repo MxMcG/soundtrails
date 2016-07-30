@@ -30,10 +30,12 @@ export default class App extends Component {
       <div className="container">
         <header>
           <h1 className="title">SoundTrails</h1>
-          <div className="video" id="video">
-            <video autoPlay="true" loop noControls muted style ={videoStyle}>
-              <source src="/img/better_earth.mp4" type="video/mp4"/>
-            </video>
+          <div className="background">
+            <div className="video" id="video">
+              <video autoPlay="true" loop noControls muted style ={videoStyle}>
+                <source src="/img/better_earth.mp4" type="video/mp4"/>
+              </video>
+            </div>
           </div>
         </header>
 

@@ -346,6 +346,18 @@ body {
   }
 }
 
+.background {
+position: absolute;
+height: 100vh;
+width: 100%;
+background-image: url("/img/space_background.png");
+top: 0;
+background-size: cover;
+z-index: 2;
+left: 0;
+transition: all 2s cubic-bezier(0.680, 0, 0.265, 1);
+}
+
 .sk-logo {
   width: 75px;
   bottom: 7px;
@@ -390,7 +402,8 @@ input[type=text] {
    body .video {
     background-image: url(/img/better_earth.gif);
     background-position: center;
-    background-size: cover;
+    background-size: 500px;
+    background-repeat: no-repeat;
   }
 
   .slideUnderInfoBox {
@@ -445,7 +458,7 @@ input[type=text] {
    }
 
    .former .search-title {
-    font-size: 15px;
+    font-size: 20px;
    }
 }
 
