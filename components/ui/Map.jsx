@@ -61,12 +61,10 @@ export default class Map extends Component {
 	}
 
 	setupMarkers(coords, content) {
-		console.log('4');
 		this.removeMarkers(coords, content);
 	}
 
 	removeMarkers(coords, content) {
-		console.log('5')
 		var markers = this.state.markers;
 		if (markers.length >= 1) {	
 			for (var i = 0; i < markers.length - 1; i++) {
@@ -89,7 +87,6 @@ export default class Map extends Component {
 	}
 
 	createMarkers(coordsObj, contentObj) {
-		console.log('6')
 		var self = this;
 		if (coordsObj.lat != null) {
 			var markerContent = contentObj;
