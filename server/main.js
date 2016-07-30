@@ -23,7 +23,7 @@ if (Meteor.isServer) {
 					if (error) {
 						myFuture.return(error);
 					}	else {
-						console.log('artist ID', response);	
+						// console.log('artist ID', response);	
 						myFuture.return(response);
 					}
 			});
@@ -43,7 +43,7 @@ if (Meteor.isServer) {
 					if (error) {
 						myFuture.return(error);
 					}	else {
-						console.log('artist Calendar', response);
+						// console.log('artist Calendar', response);
 						myFuture.return(response);
 					}
 			});
