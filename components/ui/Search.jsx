@@ -8,6 +8,7 @@ export default class Search extends Component {
 		this.createLocations = this.createLocations.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.trackArtistSearch = this.trackArtistSearch.bind(this);
 		this.getArtistId = this.getArtistId.bind(this);
 		this.getArtistCalendar = this.getArtistCalendar.bind(this);
 	}
@@ -80,6 +81,7 @@ export default class Search extends Component {
 		var self = this;
 		var artist = this.state.artist;
 		e.preventDefault();
+		this.trackArtistSearch(artist);
 		this.getArtistId(artist, function (id) {
 			self.getArtistCalendar(id, function (eventsArray) {
 				self.createLocations(eventsArray);
@@ -91,14 +93,11 @@ export default class Search extends Component {
 		this.setState({ artist: e.target.value })
 	}
 
-
-
 	searchTransition() {
 		var hasClass = false;
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
-  		
   	},2000);  	
     setTimeout(function() {
     	document.getElementsByClassName('background')[0].classList.add('displayNone');
@@ -113,6 +112,13 @@ export default class Search extends Component {
 			
 	}
 
+	trackArtistSearch(artist) {
+		console.log(artist);
+		window.dataLayer.push({
+		  event: 'artistSearch',
+		  artist_search: artist
+		});
+	}
 
   render() {
 
