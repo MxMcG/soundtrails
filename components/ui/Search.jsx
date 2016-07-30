@@ -14,7 +14,6 @@ export default class Search extends Component {
 	}
 
 	createLocations(eventsArray) {
-		console.log('3');
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
@@ -47,7 +46,6 @@ export default class Search extends Component {
 	}
 
 	getArtistId(artist, callback) {
-		console.log('1')
 		Meteor.call('fetchArtistId', artist, function (err, res) {
 			if (err) {
 				return err;
@@ -62,7 +60,6 @@ export default class Search extends Component {
 	}
 
 	getArtistCalendar(id, callback, artistName) {
-		console.log('2')
 		return Meteor.call('fetchArtistCalendar', id, function (err, res) {
 			if (err) {
 				return err;
@@ -113,7 +110,6 @@ export default class Search extends Component {
 	}
 
 	trackArtistSearch(artist) {
-		console.log(artist);
 		window.dataLayer.push({
 		  event: 'artistSearch',
 		  artist_search: artist
