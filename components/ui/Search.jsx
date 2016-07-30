@@ -114,6 +114,8 @@ export default class Search extends Component {
 	}
 
 	trackArtistSearch(artist) {
+		console.log(artist);
+		debugger;
 		window.dataLayer.push({
 		  event: 'artistSearch',
 		  artist_search: artist
