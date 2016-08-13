@@ -1,10 +1,29 @@
-* {
+
+.noOver {
+position: relative;
+height: 100vh;
+width: 100%;
+overflow: hidden;
+}
+
+
+#map {
+  width: 100%; 
+  height: 100vh;
+  position: absolute; 
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
 
 }
 
-.container {
+.searchClick.show {
+  opacity: 0;
 
 }
+
 
 body {
   background-size: cover;
@@ -64,7 +83,11 @@ body {
     position: absolute;
     z-index: 2;
     top: 0;
+    margin-right: auto;
+    right: 0;
+    margin-left: auto;
     left: 0;
+    max-width: 1200px;
     width: 100%;
     height: 100%;
     transition: all 2s cubic-bezier(0.680, 0, 0.265, 1);
@@ -235,6 +258,7 @@ body {
   z-index: 3;
   background: rgba(255, 255, 255, 1);
   width: 80%;
+  max-width: 950px;
   margin-left: auto;
   margin-right: auto;
   left: 0;
@@ -407,7 +431,7 @@ input[type=text] {
   .fifty-block {
     float: none;
     width: 100%;
-    margin: 10px auto 0 auto;
+    margin: 10px auto 25px auto;
     clear: both;
     display: table;
   }

@@ -87,7 +87,11 @@ export default class Search extends Component {
 	}
 
 	handleChange(e) {
-		this.setState({ artist: e.target.value })
+		if (e.target.value != "") {
+			this.setState({ artist: e.target.value })
+		} else {
+			Materialize.toast('You must enter an artist', 10000);
+		}
 	}
 
 	searchTransition() {
