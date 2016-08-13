@@ -26,18 +26,18 @@ export default class Search extends Component {
 			var eventVenue = eventsArray[i].venue.displayName;
 
 			var indLatLng = {
-				lat: eventsArray[i].location.lat, 
+				lat: eventsArray[i].location.lat,
 				lng: eventsArray[i].location.lng
 			};
 			var indContent = {
 				eTitle: eventTitle,
-				eCity: eventCity,	
+				eCity: eventCity,
 				eDate: eventDate,
 				eTime: eventTime,
 				eUrl: eventUrl,
 				eVenue: eventVenue
 			}
-			
+
 			latLong.push(indLatLng);
 			content.push(indContent);
 		}
@@ -82,9 +82,9 @@ export default class Search extends Component {
 		this.getArtistId(artist, function (id) {
 			self.getArtistCalendar(id, function (eventsArray) {
 				self.createLocations(eventsArray);
-			}, artist);	
+			}, artist);
 		});
-	}	
+	}
 
 	handleChange(e) {
 		this.setState({ artist: e.target.value })
@@ -95,7 +95,7 @@ export default class Search extends Component {
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
-  	},2000);  	
+  	},2000);
     setTimeout(function() {
     	document.getElementsByClassName('background')[0].classList.add('displayNone');
     	hasClass = true;
@@ -106,7 +106,7 @@ export default class Search extends Component {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 		}
-			
+
 	}
 
 	trackArtistSearch(artist) {
@@ -117,8 +117,6 @@ export default class Search extends Component {
 	}
 
   render() {
-
-
     return (
       <div className="former opener">
       	<div className="wrapped_form">
@@ -129,7 +127,7 @@ export default class Search extends Component {
 		      </div>
 		        <input type="submit" className="big-button" defaultValue='enter'
 		        	onClick={this.searchTransition} />
-		      </form>  
+		      </form>
 		    </div>
       </div>
     );

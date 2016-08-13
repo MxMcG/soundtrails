@@ -5,27 +5,23 @@ import Map from './Map.jsx';
 // App component - represents the whole app
 export default class App extends Component {
 
-  
-    
+  constructor(props) {
+    super(props);
+  }
 
+  componentDidMount() {
+    setTimeout(function() {
+      document.getElementsByClassName('former')[0].classList.remove('opener');
+      setTimeout(function() {document.getElementsByClassName('former')[0].classList.add('animation');},600);
+    }, 3000);
+  }
 
   render() {
     var videoStyle = {
-    width: '100%',
-    height: '100%',
-    verticalAlign: 'middle'
-
-  }
-  setTimeout(function() {
-    document.getElementsByClassName('former')[0].classList.remove('opener');
-    setTimeout(function() {document.getElementsByClassName('former')[0].classList.add('animation');},600); 
-  }, 3000);
-    
-      
-
-
-  
-
+      width: '100%',
+      height: '100%',
+      verticalAlign: 'middle'
+    }
     return (
       <div className="container">
         <header>
@@ -38,9 +34,7 @@ export default class App extends Component {
             </div>
           </div>
         </header>
-
-          <Map createMarkers={this.createMarkers} />
-
+        <Map createMarkers={this.createMarkers} />
       </div>
     );
   }
