@@ -190,25 +190,27 @@ export default class Map extends Component {
 		document.getElementsByClassName('former')[0].classList.toggle('transitionOut');
 		document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 		document.getElementsByClassName('close')[0].classList.toggle('searchClick');
+		setTimeout(function() {
+			document.getElementsByClassName('searchClick')[0].classList.remove('show');
+		}, 3000);
 	}	
 
   render() {
     return (
-    	<div className='mapContainer'>
-	    	<div className='mapWrap'>
-	    		<a className='btn-floating btn-large waves-effect waves-light search'
-	    		  onClick={this.openSearchModal} >
-	    		  <i className="material-icons searchClick">search</i>
-	    		  <i className="fa fa-times close" aria-hidden="true"></i>
-	    		</a>
-		    	<Search setupMarkers={this.setupMarkers} />
-					<div id='map' style={{width: '100%', height: '100%', margin: 'auto',
-					  position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, zIndex: 0}}>
-					</div>
-					<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
-					<div className='slideUnderInfoBox'></div>
-				</div>	
-			</div>
+	    	<div className='mapContainer'>
+		    	<div className='mapWrap'>
+		    		<a className='btn-floating btn-large waves-effect waves-light search'
+		    		  onClick={this.openSearchModal} >
+		    		  <i className="material-icons searchClick show">search</i>
+		    		  <i className="fa fa-times close" aria-hidden="true"></i>
+		    		</a>
+			    	<Search setupMarkers={this.setupMarkers} />
+						<div id='map'>
+						</div>
+						<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
+						<div className='slideUnderInfoBox'></div>
+					</div>	
+				</div>
     );
   }
 }
