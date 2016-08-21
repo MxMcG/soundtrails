@@ -111,6 +111,8 @@ export default class Search extends Component {
 			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 		}
 
+		document.getElementsByClassName('dontShow')[0].classList.remove('show');
+
 	}
 
 	trackArtistSearch(artist) {

@@ -4,10 +4,10 @@
     {
       "host": "192.81.218.86",
       "username": "root",
-      "password": "password",
+      "password": "password"
       // or pem file (ssh based authentication)
       // WARNING: Keys protected by a passphrase are not supported
-      "pem": "~/.ssh/id_rsa"
+      // "pem": "~/.ssh/id_rsa"
     }
   ],
 
