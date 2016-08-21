@@ -198,18 +198,15 @@ export default class Map extends Component {
 		document.getElementsByClassName('former')[0].classList.toggle('transitionOut');
 		document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 		document.getElementsByClassName('close')[0].classList.toggle('searchClick');
-		setTimeout(function() {
-			document.getElementsByClassName('searchClick')[0].classList.remove('show');
-		}, 3000);
 	}	
 
   render() {
     return (
 	    	<div className='mapContainer'>
 		    	<div className='mapWrap'>
-		    		<a className='btn-floating btn-large waves-effect waves-light search'
+		    		<a className='btn-floating btn-large waves-effect waves-light search show'
 		    		  onClick={this.openSearchModal} >
-		    		  <i className="material-icons searchClick show">search</i>
+		    		  <i className="material-icons searchClick">search</i>
 		    		  <i className="fa fa-times close" aria-hidden="true"></i>
 		    		</a>
 			    	<Search setupMarkers={this.setupMarkers} />
