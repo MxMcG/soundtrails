@@ -35,10 +35,11 @@ export default class Map extends Component {
 
 	getUserCoords() {
 		var self = this;
-		var userLocation = navigator.geolocation.getCurrentPosition(function (position) {
-			var userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
-			self.initMap(userCoords);
-		})
+		this.initMap({ lat: 32.7, lng: -117.16});
+		// navigator.geolocation.getCurrentPosition(function (position) {
+		// 	var userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+		// 	self.initMap(userCoords);
+		// });
 	}
 
 	setCenter(coords) {
