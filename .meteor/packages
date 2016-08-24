@@ -24,3 +24,4 @@ http
 flemay:less-autoprefixer
 materialize:materialize
 linto:fontawesome
+force-ssl
