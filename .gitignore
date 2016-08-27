@@ -1,3 +1,6 @@
 node_modules/
 settings.json
 mup.json
+bundle.crt
+fullchain.pem
+privkey.pem
