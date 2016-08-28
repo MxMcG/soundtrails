@@ -58,6 +58,7 @@ export default class Map extends Component {
 		closeButton.innerHTML = '<i class="fa fa-times close" aria-hidden="true"></i>';
 		closeButton.addEventListener('click', function () {
 			document.getElementsByClassName('slid')[0].classList.remove('slid');
+			document.getElementsByClassName('slideShow')[0].classList.remove('slideShow');
 		});
 	}
 
@@ -132,6 +133,7 @@ export default class Map extends Component {
 			google.maps.event.addListener(marker, 'click', function() {
         self.setInfoWindow(this.content);
         document.getElementsByClassName('slideUnderInfoBox')[0].classList.add('slid');
+        document.getElementsByClassName('items')[0].classList.add('slideShow');
       });
 		 	this.state.markers.push(marker);
     };
