@@ -35,10 +35,11 @@ export default class Map extends Component {
 
 	getUserCoords() {
 		var self = this;
-		var userLocation = navigator.geolocation.getCurrentPosition(function (position) {
-			var userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
-			self.initMap(userCoords);
-		})
+		this.initMap({ lat: 32.7, lng: -117.16});
+		// navigator.geolocation.getCurrentPosition(function (position) {
+		// 	var userCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+		// 	self.initMap(userCoords);
+		// });
 	}
 
 	setCenter(coords) {
@@ -81,7 +82,12 @@ export default class Map extends Component {
 			counter: 0
 		});
 		// reset map center at coords up upcoming artist event
-		this.setCenter(coords[0]);
+		if (!!coords[0]) {
+			this.setCenter(coords[0]);
+		} else {
+			this.getUserCoords();
+		}
+		google.maps.event.trigger(map, 'resize');
 		// begin to draw artist path
 		this.animatePath(coords, content);
 	}
@@ -184,6 +190,8 @@ export default class Map extends Component {
 		  center: coords,
 		  zoom: 4
 		});
+		google.maps.event.trigger(this.map, 'resize');
+		google.maps.event.trigger(this.map, 'bounds_changed');
 	}
 
 	openSearchModal() {

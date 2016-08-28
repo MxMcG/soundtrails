@@ -11,35 +11,41 @@ export default class Search extends Component {
 		this.trackArtistSearch = this.trackArtistSearch.bind(this);
 		this.getArtistId = this.getArtistId.bind(this);
 		this.getArtistCalendar = this.getArtistCalendar.bind(this);
+		this.state = {
+			artist: ''
+		};	
 	}
 
 	createLocations(eventsArray) {
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
+		console.log(eventsCount)
 		for (var i = 0; i <= eventsCount - 1; i++) {
-			var eventTitle = eventsArray[i].displayName;
-			var eventCity = eventsArray[i].location.city;
-			var eventDate = eventsArray[i].start.date;
-			var eventTime = eventsArray[i].start.time
-			var eventUrl = eventsArray[i].uri;
-			var eventVenue = eventsArray[i].venue.displayName;
+			// ensure lat lng exists for each event
+			if (!!eventsArray[i].location.lat && !!eventsArray[i].location.lng)
+				var eventTitle = eventsArray[i].displayName;
+				var eventCity = eventsArray[i].location.city;
+				var eventDate = eventsArray[i].start.date;
+				var eventTime = eventsArray[i].start.time
+				var eventUrl = eventsArray[i].uri;
+				var eventVenue = eventsArray[i].venue.displayName;
 
-			var indLatLng = {
-				lat: eventsArray[i].location.lat,
-				lng: eventsArray[i].location.lng
-			};
-			var indContent = {
-				eTitle: eventTitle,
-				eCity: eventCity,
-				eDate: eventDate,
-				eTime: eventTime,
-				eUrl: eventUrl,
-				eVenue: eventVenue
-			}
+				var indLatLng = {
+					lat: eventsArray[i].location.lat,
+					lng: eventsArray[i].location.lng
+				};
+				var indContent = {
+					eTitle: eventTitle,
+					eCity: eventCity,
+					eDate: eventDate,
+					eTime: eventTime,
+					eUrl: eventUrl,
+					eVenue: eventVenue
+				}
 
-			latLong.push(indLatLng);
-			content.push(indContent);
+				latLong.push(indLatLng);
+				content.push(indContent);
 		}
 
 		return this.props.setupMarkers(latLong, content);
@@ -51,9 +57,9 @@ export default class Search extends Component {
 				return err;
 			} else {
 				if (!res.data.resultsPage.results.artist) {
-					Materialize.toast(artist + ' Cannot Be Found', 10000);
+					callback({ 'message': 'artist cannot be found'}, null, artist);
 				} else {
-					callback(res.data.resultsPage.results.artist[0].id, artist);
+					callback(null, res.data.resultsPage.results.artist[0].id, artist);
 				}
 			}
 		});
@@ -65,32 +71,42 @@ export default class Search extends Component {
 				return err;
 			} else {
 				if (!res.data.resultsPage.results.event) {
-					Materialize.toast(artistName + ': Not On Tour', 10000);
+					callback({ 'message': 'artist not on tour'}, null, artistName);
 				} else {
 					var calendarData = JSON.parse(res.content);
-					callback(calendarData.resultsPage.results.event);
+					callback(null, calendarData.resultsPage.results.event, artistName);
 				}
 			}
 		});
 	}
 
 	handleSubmit(e) {
+		e.preventDefault();
 		var self = this;
 		var artist = this.state.artist;
-		e.preventDefault();
+		if (!artist) return Materialize.toast('You must enter an artist', 8000);
 		this.trackArtistSearch(artist);
-		this.getArtistId(artist, function (id) {
-			self.getArtistCalendar(id, function (eventsArray) {
-				self.createLocations(eventsArray);
-			}, artist);
+		this.getArtistId(artist, function (err, id, artistName) {
+			if (!!err) {
+				Materialize.toast(artistName + ': Cannot be found', 8000);
+				// center map at user location
+			} else {
+				self.getArtistCalendar(id, function (err, eventsArray, artistName) {
+					if (!!err) {
+						Materialize.toast(artistName + ' is not on tour', 8000);
+						// center map at user location
+
+					} else {
+						self.createLocations(eventsArray);
+					}
+				}, artist);					
+			}	
 		});
 	}
 
 	handleChange(e) {
 		if (e.target.value != "") {
 			this.setState({ artist: e.target.value })
-		} else {
-			Materialize.toast('You must enter an artist', 10000);
 		}
 	}
 
