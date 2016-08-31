@@ -13,16 +13,17 @@ export default class Map extends Component {
 
 	constructor(props) {
 		super(props);
-		this.createMarkers = this.createMarkers.bind(this);
-		this.setupMarkers = this.setupMarkers.bind(this);
-		this.removeMarkers = this.removeMarkers.bind(this);
-		this.getUserCoords = this.getUserCoords.bind(this);
-		this.openSearchModal = this.openSearchModal.bind(this);
-		this.setCenter = this.setCenter.bind(this);
-		this.setInfoWindow = this.setInfoWindow.bind(this);
 		this.addCloseListener = this.addCloseListener.bind(this);
 		this.animatePath = this.animatePath.bind(this);
+		this.createMarkers = this.createMarkers.bind(this);
+		this.getUserCoords = this.getUserCoords.bind(this);
 		this.initMap = this.initMap.bind(this);
+		this.openSearchModal = this.openSearchModal.bind(this);
+		this.removeMarkers = this.removeMarkers.bind(this);
+		this.setupMarkers = this.setupMarkers.bind(this);
+		this.setCenter = this.setCenter.bind(this);
+		this.setInfoWindow = this.setInfoWindow.bind(this);
+		this.trackTicketClick = this.trackTicketClick.bind(this);
 		this.state = {
 			counter: 0,
 			markers: []
@@ -49,7 +50,19 @@ export default class Map extends Component {
 	setInfoWindow(content) {
 		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
 		infoWindow.innerHTML = content;
+		this.trackTicketClick();
 		this.addCloseListener();
+	}
+
+	trackTicketClick() {
+		var eventTitle = document.getElementsByClassName('event-title')[0].firstChild.nextSibling.data;
+		var eventDate = document.getElementsByClassName('event-date')[0].firstChild.nextSibling.data;
+		var eventCity = document.getElementsByClassName('event-city')[0].firstChild.nextSibling.data;
+		window.dataLayer.push({
+			title: eventTitle,
+			date: eventDate,
+			city: eventCity
+		});
 	}
 
 	addCloseListener() {
@@ -120,7 +133,7 @@ export default class Map extends Component {
 		  } else {
 		  	time = 'To Be Determined';
 		  } 	
-			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i> ' + markerContent.eTitle + '</p><p class=\'items\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i> ' + date + '</p><p class=\'items\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i> ' + markerContent.eVenue + '</p><p class=\'items\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i> ' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i> ' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>'; 
+			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>'; 
 			var marker = new google.maps.Marker({
 		    position: coordsObj,
 		    content: markerInfo,

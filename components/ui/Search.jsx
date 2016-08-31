@@ -20,7 +20,6 @@ export default class Search extends Component {
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
-		console.log(eventsCount)
 		for (var i = 0; i <= eventsCount - 1; i++) {
 			// ensure lat lng exists for each event
 			if (!!eventsArray[i].location.lat && !!eventsArray[i].location.lng)
@@ -131,10 +130,12 @@ export default class Search extends Component {
 	}
 
 	trackArtistSearch(artist) {
+		var dimensionValue = artist;
 		window.dataLayer.push({
 		  event: 'artistSearch',
 		  artist_search: artist
 		});
+		ga('set', 'dimension1', dimensionValue);
 	}
 
   render() {
