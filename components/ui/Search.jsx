@@ -144,7 +144,7 @@ export default class Search extends Component {
 	      	<h3 className="search-title" >Follow the trail of your favorite artists!</h3>
 	      	<form onSubmit={this.handleSubmit}>
 	      	<div className="input-field col s6">
-		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange}/>
+		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
 		      </div>
 		        <input type="submit" className="big-button" defaultValue='enter'
 		        	onClick={this.searchTransition} />
