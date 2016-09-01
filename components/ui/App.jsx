@@ -20,7 +20,8 @@ export default class App extends Component {
     var videoStyle = {
       width: '100%',
       height: '100%',
-      verticalAlign: 'middle'
+      verticalAlign: 'middle',
+      zIndex: '1'
     }
     return (
       <div className="container">
