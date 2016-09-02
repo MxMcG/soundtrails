@@ -112,7 +112,7 @@ export default class Search extends Component {
 
 	searchTransition() {
 		var hasClass = false;
-		document.getElementsByClassName('video')[0].classList.add('displayBlock');
+		document.getElementsByClassName('video')[0].classList.remove('displayNone');
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
