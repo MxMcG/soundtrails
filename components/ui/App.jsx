@@ -13,7 +13,7 @@ export default class App extends Component {
     setTimeout(function() {
       document.getElementsByClassName('former')[0].classList.remove('opener');
       setTimeout(function() {document.getElementsByClassName('former')[0].classList.add('animation');},600);
-    }, 3000);
+    }, 1000);
   }
 
   render() {
