@@ -127,6 +127,7 @@ body {
   height: auto;
   width: 100%;
   left: 0;
+  z-index: 3;
   padding-right: 10px;
   transition: all .5s ease-out;
   transform: translateY(100%);
@@ -299,9 +300,21 @@ body {
 }
 
 .transitionOut {
-  transition: all 2s ease;
-  transform: scale3d(0, 0, 1) translateY(-50%) rotate(25deg) translateZ(0px);;
-  opacity: 0;
+  animation: transitionOut 2s forwards;
+
+}
+
+@keyframes transitionOut {
+  0% {
+      transform: scale3d(1, 1, 1) translateY(-50%) rotate(0deg) translateZ(0px);
+      opacity: 1;
+  }
+
+  100% {
+      transform: scale3d(0, 0, 1) translateY(-50%) rotate(25deg) translateZ(0px);
+      opacity: 0;
+  }
+
 }
 
 .background .video.displayBlock {
@@ -324,7 +337,7 @@ body {
 
 .btn-floating {
   background: #FF6B6B;
-  z-index: 1;
+  z-index: 3;
 
    &:hover {
     background: #FF6B6B;
@@ -524,9 +537,26 @@ input[type=text] {
     width: 100%;
   }
 
+  .offClick {
+  display: block;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  height: 100vh;
+}
+
+.offClick.displayNone {
+  display: none;
+}
+
 }
 
 @media screen and (max-width: 500px) {
+
+
+
 
 .video video {
 display: none;
