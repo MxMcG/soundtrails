@@ -10,6 +10,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    var video = this.refs.video;
     setTimeout(function() {
       document.getElementsByClassName('former')[0].classList.remove('opener');
       setTimeout(function() {document.getElementsByClassName('former')[0].classList.add('animation');},600);
@@ -24,9 +25,9 @@ export default class App extends Component {
       zIndex: '1'
     }
     return (
-      <div className="container">
+      <div className="container" ref="video">
         <header>
-          <h1 className="title">SoundTrails</h1>
+          <h1 className="title">Tourlookup</h1>
           <div className="background">
             <div className="video" id="video">
               <video autoPlay="true" loop muted style ={videoStyle}>

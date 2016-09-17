@@ -111,6 +111,7 @@ export default class Search extends Component {
 
 	searchTransition() {
 		var hasClass = false;
+		document.getElementsByClassName('show')[0].classList.remove('dontShow');
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
@@ -125,8 +126,6 @@ export default class Search extends Component {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 		}
-		document.getElementsByClassName('search')[0].classList.remove('show');
-			
 	}
 
 	trackArtistSearch(artist) {
