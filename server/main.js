@@ -8,6 +8,8 @@ Meteor.startup(() => {
 
 if (Meteor.isServer) {
 
+	Todos = new Mongo.Collection('Todos');
+
 	Meteor.methods({
 
 		fetchArtistId(artist) {
@@ -27,6 +29,10 @@ if (Meteor.isServer) {
 						myFuture.return(response);
 					}
 			});
+
+			Todos.insert({testtt: 'testerrrr'});
+			var todo = Todos.findOne({testtt: 'testerrrr'});
+			console.log(todo);
 
 			return myFuture.wait();
 		},

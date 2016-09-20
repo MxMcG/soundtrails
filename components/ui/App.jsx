@@ -26,7 +26,7 @@ export default class App extends Component {
     return (
       <div className="container">
         <header>
-          <h1 className="title">SoundTrails</h1>
+          <h1 className="title">Tourlookup</h1>
           <div className="background">
             <div className="video" id="video">
               <video autoPlay="true" loop muted style ={videoStyle}>
