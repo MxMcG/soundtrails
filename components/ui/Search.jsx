@@ -20,7 +20,6 @@ export default class Search extends Component {
 		var latLong = [];
 		var content = [];
 		var eventsCount = eventsArray.length;
-		console.log(eventsCount)
 		for (var i = 0; i <= eventsCount - 1; i++) {
 			// ensure lat lng exists for each event
 			if (!!eventsArray[i].location.lat && !!eventsArray[i].location.lng)
@@ -112,6 +111,7 @@ export default class Search extends Component {
 
 	searchTransition() {
 		var hasClass = false;
+		document.getElementsByClassName('show')[0].classList.remove('dontShow');
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
@@ -126,16 +126,15 @@ export default class Search extends Component {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 		}
-
-		document.getElementsByClassName('dontShow')[0].classList.remove('show');
-
 	}
 
 	trackArtistSearch(artist) {
+		var dimensionValue = artist;
 		window.dataLayer.push({
 		  event: 'artistSearch',
 		  artist_search: artist
 		});
+		ga('set', 'dimension1', dimensionValue);
 	}
 
   render() {
@@ -145,7 +144,7 @@ export default class Search extends Component {
 	      	<h3 className="search-title" >Follow the trail of your favorite artists!</h3>
 	      	<form onSubmit={this.handleSubmit}>
 	      	<div className="input-field col s6">
-		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange}/>
+		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
 		      </div>
 		        <input type="submit" className="big-button" defaultValue='enter'
 		        	onClick={this.searchTransition} />

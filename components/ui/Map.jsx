@@ -13,16 +13,17 @@ export default class Map extends Component {
 
 	constructor(props) {
 		super(props);
-		this.createMarkers = this.createMarkers.bind(this);
-		this.setupMarkers = this.setupMarkers.bind(this);
-		this.removeMarkers = this.removeMarkers.bind(this);
-		this.getUserCoords = this.getUserCoords.bind(this);
-		this.openSearchModal = this.openSearchModal.bind(this);
-		this.setCenter = this.setCenter.bind(this);
-		this.setInfoWindow = this.setInfoWindow.bind(this);
 		this.addCloseListener = this.addCloseListener.bind(this);
 		this.animatePath = this.animatePath.bind(this);
+		this.createMarkers = this.createMarkers.bind(this);
+		this.getUserCoords = this.getUserCoords.bind(this);
 		this.initMap = this.initMap.bind(this);
+		this.openSearchModal = this.openSearchModal.bind(this);
+		this.removeMarkers = this.removeMarkers.bind(this);
+		this.setupMarkers = this.setupMarkers.bind(this);
+		this.setCenter = this.setCenter.bind(this);
+		this.setInfoWindow = this.setInfoWindow.bind(this);
+		this.trackTicketClick = this.trackTicketClick.bind(this);
 		this.state = {
 			counter: 0,
 			markers: []
@@ -49,7 +50,19 @@ export default class Map extends Component {
 	setInfoWindow(content) {
 		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
 		infoWindow.innerHTML = content;
+		this.trackTicketClick();
 		this.addCloseListener();
+	}
+
+	trackTicketClick() {
+		var eventTitle = document.getElementsByClassName('event-title')[0].firstChild.nextSibling.data;
+		var eventDate = document.getElementsByClassName('event-date')[0].firstChild.nextSibling.data;
+		var eventCity = document.getElementsByClassName('event-city')[0].firstChild.nextSibling.data;
+		window.dataLayer.push({
+			title: eventTitle,
+			date: eventDate,
+			city: eventCity
+		});
 	}
 
 	addCloseListener() {
@@ -57,8 +70,17 @@ export default class Map extends Component {
 		var closeButton = document.getElementsByClassName('closeWindow')[0];
 		closeButton.innerHTML = '<i class="fa fa-times close" aria-hidden="true"></i>';
 		closeButton.addEventListener('click', function () {
+		if (open = true) {
+			document.getElementsByClassName('offClick')[0].classList.add('displayNone');
 			document.getElementsByClassName('slid')[0].classList.remove('slid');
+			document.getElementsByClassName('slideShow')[0].classList.remove('slideShow');
+			open = false;
+		} else {
+			document.getElementsByClassName('offClick')[0].classList.add('displayNone');
+		}
 		});
+
+
 	}
 
 	setupMarkers(coords, content) {
@@ -119,7 +141,8 @@ export default class Map extends Component {
 		  } else {
 		  	time = 'To Be Determined';
 		  } 	
-			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i> ' + markerContent.eTitle + '</p><p class=\'items\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i> ' + date + '</p><p class=\'items\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i> ' + markerContent.eVenue + '</p><p class=\'items\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i> ' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i> ' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>'; 
+		  var open = false;
+			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>'; 
 			var marker = new google.maps.Marker({
 		    position: coordsObj,
 		    content: markerInfo,
@@ -132,6 +155,9 @@ export default class Map extends Component {
 			google.maps.event.addListener(marker, 'click', function() {
         self.setInfoWindow(this.content);
         document.getElementsByClassName('slideUnderInfoBox')[0].classList.add('slid');
+        document.getElementsByClassName('items')[0].classList.add('slideShow');
+        document.getElementsByClassName('offClick')[0].classList.remove('displayNone');
+        open = true;
       });
 		 	this.state.markers.push(marker);
     };
@@ -188,7 +214,8 @@ export default class Map extends Component {
 	initMap(coords) { 
 		this.map = new google.maps.Map(document.getElementById('map'), {
 		  center: coords,
-		  zoom: 4
+		  zoom: 4,
+		  mapTypeControl: false
 		});
 		google.maps.event.trigger(this.map, 'resize');
 		google.maps.event.trigger(this.map, 'bounds_changed');
@@ -200,12 +227,24 @@ export default class Map extends Component {
 		document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 	}	
 
+	closeModal() {
+		if (open = true) {
+			document.getElementsByClassName('offClick')[0].classList.add('displayNone');
+			document.getElementsByClassName('slid')[0].classList.remove('slid');
+			open = false;
+		} else {
+			document.getElementsByClassName('offClick')[0].classList.add('displayNone');
+		}
+	}
+
+
   render() {
     return (
 	    	<div className='mapContainer'>
+	    		<div className ='offClick displayNone' onClick={this.closeModal}></div>
 		    	<div className='mapWrap'>
-		    		<a className='btn-floating btn-large waves-effect waves-light search dontShow show'
-		    		  onClick={this.openSearchModal}>
+		    		<a className='btn-floating btn-large waves-effect waves-light search show dontShow'
+		    		  onClick={this.openSearchModal} >
 		    		  <i className="material-icons searchClick">search</i>
 		    		  <i className="fa fa-times close" aria-hidden="true"></i>
 		    		</a>
@@ -213,6 +252,13 @@ export default class Map extends Component {
 						<div id='map'>
 						</div>
 						<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
+						<div className="fb-share-button" data-href="https://www.tourlookup.com" 
+							data-layout="button" data-size="large" data-mobile-iframe="true">
+							<a className="fb-xfbml-parse-ignore" target="_blank" 
+								href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tourlookup.com%2F&amp;src=sdkpreparse">
+									Share
+							</a>
+						</div>
 						<div className='slideUnderInfoBox'></div>
 					</div>	
 				</div>
