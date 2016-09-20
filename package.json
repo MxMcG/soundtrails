@@ -5,9 +5,9 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "file-system": "^2.2.1",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.2.1",
-    "react-dom": "^15.2.1",
-    "react-google-maps": "^4.10.1"
+    "react-dom": "^15.2.1"
   }
 }
