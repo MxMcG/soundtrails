@@ -11,6 +11,7 @@ export default class Search extends Component {
 		this.trackArtistSearch = this.trackArtistSearch.bind(this);
 		this.getArtistId = this.getArtistId.bind(this);
 		this.getArtistCalendar = this.getArtistCalendar.bind(this);
+		this.searchTransition = this.searchTransition.bind(this);
 		this.state = {
 			artist: ''
 		};	
@@ -83,29 +84,32 @@ export default class Search extends Component {
 		e.preventDefault();
 		var self = this;
 		var artist = this.state.artist;
-		if (!artist) return Materialize.toast('You must enter an artist', 8000);
-		this.trackArtistSearch(artist);
-		this.getArtistId(artist, function (err, id, artistName) {
-			if (!!err) {
-				Materialize.toast(artistName + ': Cannot be found', 8000);
-				// center map at user location
-			} else {
-				self.getArtistCalendar(id, function (err, eventsArray, artistName) {
-					if (!!err) {
-						Materialize.toast(artistName + ' is not on tour', 8000);
-						// center map at user location
-
-					} else {
-						self.createLocations(eventsArray);
-					}
-				}, artist);					
-			}	
-		});
+		if (artist) {
+			this.trackArtistSearch(artist);
+			this.getArtistId(artist, function (err, id, artistName) {
+				if (err) {
+					Materialize.toast(artistName + ': Cannot be found', 8000);
+				} else {
+					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
+						if (err) {
+							Materialize.toast(artistName + ' is not on tour', 8000);
+						} else {
+							self.searchTransition();
+							self.createLocations(eventsArray);
+						}
+					}, artist);					
+				}
+				// remove artist state
+				self.setState({ artist: '' });	
+			});
+		} else {
+			Materialize.toast('Please enter an artist', 8000);
+		}
 	}
 
 	handleChange(e) {
 		if (e.target.value != "") {
-			this.setState({ artist: e.target.value })
+			this.setState({ artist: e.target.value });
 		}
 	}
 
@@ -147,8 +151,7 @@ export default class Search extends Component {
 	      	<div className="input-field col s6">
 		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
 		      </div>
-		        <input type="submit" className="big-button" defaultValue='enter'
-		        	onClick={this.searchTransition} />
+		        <input type="submit" className="big-button" defaultValue='enter'/>
 		      </form>
 		    </div>
       </div>

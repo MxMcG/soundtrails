@@ -217,6 +217,9 @@ export default class Map extends Component {
 		  zoom: 4,
 		  mapTypeControl: false
 		});
+		this.map.setOptions({
+			minZoom: 2
+		});
 		google.maps.event.trigger(this.map, 'resize');
 		google.maps.event.trigger(this.map, 'bounds_changed');
 	}

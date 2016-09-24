@@ -9,5 +9,9 @@
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.2.1",
     "react-dom": "^15.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.6.0",
+    "eslint-plugin-react": "^6.3.0"
   }
 }
