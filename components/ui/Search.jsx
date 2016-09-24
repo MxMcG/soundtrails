@@ -125,8 +125,9 @@ export default class Search extends Component {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
 		}
-		document.getElementsByClassName('search')[0].classList.remove('show');
-			
+
+		document.getElementsByClassName('dontShow')[0].classList.remove('show');
+
 	}
 
 	trackArtistSearch(artist) {

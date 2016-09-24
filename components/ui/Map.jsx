@@ -220,8 +220,8 @@ export default class Map extends Component {
     return (
 	    	<div className='mapContainer'>
 		    	<div className='mapWrap'>
-		    		<a className='btn-floating btn-large waves-effect waves-light search show'
-		    		  onClick={this.openSearchModal} >
+		    		<a className='btn-floating btn-large waves-effect waves-light search dontShow show'
+		    		  onClick={this.openSearchModal}>
 		    		  <i className="material-icons searchClick">search</i>
 		    		  <i className="fa fa-times close" aria-hidden="true"></i>
 		    		</a>
