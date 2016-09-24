@@ -18,6 +18,7 @@ export default class Map extends Component {
 		this.createMarkers = this.createMarkers.bind(this);
 		this.getUserCoords = this.getUserCoords.bind(this);
 		this.initMap = this.initMap.bind(this);
+		this.closeModal = this.closeModal.bind(this);
 		this.openSearchModal = this.openSearchModal.bind(this);
 		this.removeMarkers = this.removeMarkers.bind(this);
 		this.setupMarkers = this.setupMarkers.bind(this);
