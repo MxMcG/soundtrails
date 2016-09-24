@@ -22,3 +22,5 @@ flemay:less-autoprefixer
 materialize:materialize
 linto:fontawesome
 shell-server
+force-ssl
+
