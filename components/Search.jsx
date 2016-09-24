@@ -14,7 +14,7 @@ export default class Search extends Component {
 		this.searchTransition = this.searchTransition.bind(this);
 		this.state = {
 			artist: ''
-		};	
+		};
 	}
 
 	createLocations(eventsArray) {
@@ -97,10 +97,10 @@ export default class Search extends Component {
 							self.searchTransition();
 							self.createLocations(eventsArray);
 						}
-					}, artist);					
+					}, artist);
 				}
 				// remove artist state
-				self.setState({ artist: '' });	
+				self.setState({ artist: '' });
 			});
 		} else {
 			Materialize.toast('Please enter an artist', 8000);

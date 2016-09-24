@@ -27,7 +27,7 @@ export default class Map extends Component {
 		this.state = {
 			counter: 0,
 			markers: []
-		};	
+		};
 	}
 
 	componentDidMount() {
@@ -89,12 +89,12 @@ export default class Map extends Component {
 
 	removeMarkers(coords, content) {
 		var markers = this.state.markers;
-		if (markers.length >= 1) {	
+		if (markers.length >= 1) {
 			for (var i = 0; i < markers.length - 1; i++) {
 				markers[i].setMap(null);
 			}
 			markers = [];
-		}	
+		}
 		// clear infowindow if still open
 		if (document.getElementsByClassName('slid')[0]) document.getElementsByClassName('slid')[0].classList.remove('slid');
 		// clear soundtrail path
@@ -140,9 +140,9 @@ export default class Map extends Component {
 		    }
 		  } else {
 		  	time = 'To Be Determined';
-		  } 	
+		  }
 		  var open = false;
-			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>'; 
+			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>';
 			var marker = new google.maps.Marker({
 		    position: coordsObj,
 		    content: markerInfo,
@@ -151,7 +151,7 @@ export default class Map extends Component {
 		  // The most upcoming artist event
 		  if (this.state.counter === 0) {
 				marker.setAnimation(google.maps.Animation.BOUNCE);
-		  }	
+		  }
 			google.maps.event.addListener(marker, 'click', function() {
         self.setInfoWindow(this.content);
         document.getElementsByClassName('slideUnderInfoBox')[0].classList.add('slid');
@@ -172,7 +172,7 @@ export default class Map extends Component {
 		var cleanCoords = coords.filter(function(coord) {
 	  	return (coord.lat !== null);
 	  });
-	  if (cleanCoords[counter] !== undefined) {	
+	  if (cleanCoords[counter] !== undefined) {
 	  	// handles stoppage of path on final coordinate
 	  	if (cleanCoords[counter + 1] === undefined) {
 				var departure = new google.maps.LatLng(cleanCoords[counter].lat, cleanCoords[counter].lng); //Set to whatever lat/lng you need for your departure location
@@ -211,7 +211,7 @@ export default class Map extends Component {
 		}
 	}
 
-	initMap(coords) { 
+	initMap(coords) {
 		this.map = new google.maps.Map(document.getElementById('map'), {
 		  center: coords,
 		  zoom: 4,
@@ -228,7 +228,7 @@ export default class Map extends Component {
 		document.getElementsByClassName('former')[0].classList.toggle('transitionOut');
 		document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
 		document.getElementsByClassName('close')[0].classList.toggle('searchClick');
-	}	
+	}
 
 	closeModal() {
 		if (open = true) {
@@ -263,7 +263,7 @@ export default class Map extends Component {
 						</div>
 						<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
 						<div className='slideUnderInfoBox'></div>
-					</div>	
+					</div>
 				</div>
     );
   }

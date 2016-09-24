@@ -10,7 +10,7 @@ const User = class User {
 
   getCookies() {
     const sid = crypto.randomBytes(8).toString('hex');
-    console.log(uid);
+    // console.log(uid);
     // check cookies for uid
 
     // no uid exists
