@@ -241,14 +241,14 @@ export default class Map extends Component {
   render() {
     return (
 	    	<div className='mapContainer'>
+	    		<Search setupMarkers={this.setupMarkers} />
 	    		<div className ='offClick displayNone' onClick={this.closeModal}></div>
-		    	<div className='mapWrap'>
+		    	<div className='mapWrap displayNone'>
 		    		<a className='btn-floating btn-large waves-effect waves-light search show dontShow'
 		    		  onClick={this.openSearchModal} >
 		    		  <i className="material-icons searchClick">search</i>
 		    		  <i className="fa fa-times close" aria-hidden="true"></i>
 		    		</a>
-			    	<Search setupMarkers={this.setupMarkers} />
 						<div id='map'>
 						</div>
 						<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
