@@ -1,30 +1,14 @@
 import { Meteor } from 'meteor/meteor';
-const crypto = Npm.require('crypto');
 
-const User = class User {
+if (Meteor.isServer) {
 
-  constructor(properties) {
-    this.properties = properties;
-    this.getCookies();
-  }
+  Meteor.methods({
+    addNewSession(artist) {
 
-  getCookies() {
-    const sid = crypto.randomBytes(8).toString('hex');
-    // console.log(uid);
-    // check cookies for uid
+    }
+  })
 
-    // no uid exists
-    const uid = crypto.randomBytes(8).toString('hex');
-
-    // create cookie with uid
-    // window.document.cookie = 'cookie1=test; expires=Fri, 3 Aug 2001 20:47:11 UTC; path=/'
-  }
-
-};
-
-module.exports = {
-  User
-};
+}
 
     // create method, checks cookies for sid
 
