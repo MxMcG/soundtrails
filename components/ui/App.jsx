@@ -13,6 +13,10 @@ export default class App extends Component {
   }
 
   componentDidMount() {
+    setTimeout(function() {
+      document.getElementsByClassName('video')[0].classList.remove('displayNone');
+    }, 500);
+
 
     setTimeout(function() {
       document.getElementsByClassName('former')[0].classList.remove('opener');

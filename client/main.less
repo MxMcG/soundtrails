@@ -6,9 +6,7 @@ width: 100%;
 overflow: hidden;
 }
 
-.dg.ac {
-  display: none;
-}
+
 
 
 #map {
@@ -23,16 +21,13 @@ overflow: hidden;
 
 }
 
-.dontShow.show {
-  opacity: 0;
 
-}
 
 .show {
   opacity: 1;
 }
 
-.mapWrap .fb_iframe_widget {
+.fb_iframe_widget {
     display: inline-block;
     position: fixed;
     top: 12px;
@@ -101,17 +96,47 @@ body {
   }
 
 
+
+
+
   .video {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
+    opacity: 1;
+    background-size: 200%;
     top: 0;
-    margin-right: auto;
+    background-image: url(img/earth_map.jpg);
     right: 0;
-    margin-left: auto;
+    transform-style: preserve-3d;
+    margin: auto;
+    bottom: 0;
+    box-shadow: -84px 15px 80px 10px rgba(0, 0, 0, 0.95) inset, inset 9px 0px 21px 11px rgba(255, 255, 255, 0.2), 0 0 130px rgba(75, 193, 233, 0.4);
+    border-radius: 50%;
     left: 0;
-    width: 100%;
-    height: 100%;
-    transition: all 2s cubic-bezier(0.680, 0, 0.265, 1);
+    height: 450px;
+    width: 450px;
+    animation: map 26s linear infinite;
+    -webkit-transition: all 2s cubic-bezier(0.68, 0, 0.265, 1);
+    transition: all 2s cubic-bezier(0.68, 0, 0.265, 1);
+  }
+}
+
+
+
+@keyframes map {
+  0% {
+    box-shadow: -84px 15px 80px 10px rgba(0, 0, 0, 0.95) inset, inset 9px 0px 21px 11px rgba(255, 255, 255, 0.2), 0 0 130px rgba(75, 193, 233, 0.4);
+    background-position: 0px;
+  }
+
+  50% {
+    box-shadow: -84px 15px 80px 10px rgba(0, 0, 0, 0.95) inset, inset 9px 0px 21px 11px rgba(255, 255, 255, 0.2), 0 0 180px rgba(75, 193, 233, 0.4);
+    background-position: 100%;
+  }
+
+  100% {
+    box-shadow: -84px 15px 80px 10px rgba(0, 0, 0, 0.95) inset, inset 9px 0px 21px 11px rgba(255, 255, 255, 0.2), 0 0 130px rgba(75, 193, 233, 0.4);
+    background-position: 200%;
   }
 }
 
@@ -142,6 +167,7 @@ body {
   height: auto;
   width: 100%;
   left: 0;
+  z-index: 2;
   padding-right: 10px;
   transition: all .5s ease-out;
   transform: translateY(100%);
@@ -444,7 +470,7 @@ animation: colorAlter 7s infinite;
   line-height: 194px;
   color: white;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  background: rgba(255, 107, 107, .9);;
+  background: rgba(255, 107, 107, .9);
   letter-spacing: 2px;
   width: 100%;
   text-align: center;
@@ -515,7 +541,11 @@ input[type=text] {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
+
+  body .video {
+    opacity:1;
+  }
 
 
   .offClick {
@@ -531,11 +561,13 @@ input[type=text] {
 .offClick.displayNone {
   display: none;
 }
-
+body #container {
+    height: 300px;
+    width: 300px;
+} 
    body .video {
-    background-position: center;
-    background-size: 500px;
-    background-repeat: no-repeat;
+    height: 300px;
+    width: 300px;
   }
 
   .slideUnderInfoBox {
@@ -562,18 +594,8 @@ input[type=text] {
 
 @media screen and (max-width: 500px) {
 
-.video video {
-display: none;
 
-}
 
-body .video {
- background-image: url("/img/earth_poster.jpg");
-  background-size: 500px;
-  background-repeat: no-repeat;
-  background-position: center center;
-
-}
   .link {
     height: 90px;
     line-height: 90px;

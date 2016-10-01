@@ -242,6 +242,13 @@ export default class Map extends Component {
     return (
 	    	<div className='mapContainer'>
 	    		<Search setupMarkers={this.setupMarkers} />
+	    		<div className="fb-share-button" data-href="https://www.tourlookup.com" 
+	    			data-layout="button" data-size="large" data-mobile-iframe="true">
+	    			<a className="fb-xfbml-parse-ignore" target="_blank" 
+	    				href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tourlookup.com%2F&amp;src=sdkpreparse">
+	    					Share
+	    			</a>
+	    		</div>
 	    		<div className ='offClick displayNone' onClick={this.closeModal}></div>
 		    	<div className='mapWrap displayNone'>
 		    		<a className='btn-floating btn-large waves-effect waves-light search show dontShow'
@@ -252,13 +259,6 @@ export default class Map extends Component {
 						<div id='map'>
 						</div>
 						<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
-						<div className="fb-share-button" data-href="https://www.tourlookup.com" 
-							data-layout="button" data-size="large" data-mobile-iframe="true">
-							<a className="fb-xfbml-parse-ignore" target="_blank" 
-								href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tourlookup.com%2F&amp;src=sdkpreparse">
-									Share
-							</a>
-						</div>
 						<div className='slideUnderInfoBox'></div>
 					</div>	
 				</div>
