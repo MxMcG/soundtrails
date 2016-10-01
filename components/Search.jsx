@@ -12,6 +12,7 @@ export default class Search extends Component {
 		this.getArtistId = this.getArtistId.bind(this);
 		this.getArtistCalendar = this.getArtistCalendar.bind(this);
 		this.searchTransition = this.searchTransition.bind(this);
+		this.saveArtist = this.saveArtist.bind(this);
 		this.state = {
 			artist: ''
 		};
@@ -80,6 +81,16 @@ export default class Search extends Component {
 		});
 	}
 
+	saveArtist(artist, id) {
+		return Meteor.call('saveArtist', artist, id, function (err, res) {
+			if (err) {
+				return err;
+			} else {
+				return true
+			}
+		});
+	}
+
 	handleSubmit(e) {
 		e.preventDefault();
 		var self = this;
@@ -87,6 +98,7 @@ export default class Search extends Component {
 		if (artist) {
 			this.trackArtistSearch(artist);
 			this.getArtistId(artist, function (err, id, artistName) {
+				
 				if (err) {
 					Materialize.toast(artistName + ': Cannot be found', 8000);
 				} else {
@@ -99,6 +111,7 @@ export default class Search extends Component {
 						}
 					}, artist);
 				}
+				self.saveArtist(artist, id);
 				// remove artist state
 				self.setState({ artist: '' });
 			});

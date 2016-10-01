@@ -24,6 +24,5 @@ linto:fontawesome
 force-ssl
 shell-server
 
-aldeed:simple-schema
 session
 random

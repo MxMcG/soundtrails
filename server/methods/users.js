@@ -3,9 +3,10 @@ import { Meteor } from 'meteor/meteor';
 if (Meteor.isServer) {
 
   Meteor.methods({
-    addNewSession(artist) {
-
-    }
+	  addNewSession(options) {
+	  	console.log('SIDDDD', options.sid);
+	  	console.log('UIDDDD', options.uid);
+	  }
   })
 
 }

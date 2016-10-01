@@ -10,14 +10,14 @@ const User = class User {
   inspectIncomingUser() {
     const sid = Random.id([20]);
     const uid = Random.id([20]);
-    const cookieValue = this.getCookie('uid');
+    let cookieValue = this.getCookie('uid');
+    let userId = cookieValue || uid;
     let options = {
       sid,
-      uid: cookieValue,
-
+      uid: userId
     }
-    console.log(navigator.userAgent)
     if (cookieValue) {  
+      // add new sid to existing visitor
       Meteor.call('addNewSession', options, function (err, res) {
         if (err) {
           return err;
@@ -25,10 +25,17 @@ const User = class User {
           
         }
       });
-
     } else {
+      // add new visitor id and data
+      Meteor.call('addNewUser', options, function (err, res) {
+        if (err) {
+          return err;
+        } else {
+          
+        }
+      });
       this.createCookie('uid', uid, 90);
-      this.createCookie('sid', sid, 90);
+      this.createCookie('sid', sid, 1);
     } 
   }
 
