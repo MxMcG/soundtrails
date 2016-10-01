@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 import Map from './Map.jsx';
+import Globe from './Globe.jsx';
+
+'use strict';
 
 // App component - represents the whole app
 export default class App extends Component {
@@ -10,32 +13,25 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    var video = this.refs.video;
+    setTimeout(function() {
+      document.getElementsByClassName('video')[0].classList.remove('displayNone');
+    }, 500);
+
+
     setTimeout(function() {
       document.getElementsByClassName('former')[0].classList.remove('opener');
       setTimeout(function() {document.getElementsByClassName('former')[0].classList.add('animation');},600);
     }, 3000);
+
   }
 
+
+
   render() {
-    var videoStyle = {
-      width: '100%',
-      height: '100%',
-      verticalAlign: 'middle',
-      zIndex: '1'
-    }
+
     return (
-      <div className="container" ref="video">
-        <header>
-          <h1 className="title">Tourlookup</h1>
-          <div className="background">
-            <div className="video" id="video">
-              <video autoPlay="true" loop muted style ={videoStyle}>
-                <source src="/img/better_earth.mp4" type="video/mp4"/>
-              </video>
-            </div>
-          </div>
-        </header>
+      <div className="app-container">
+        <Globe />
         <Map createMarkers={this.createMarkers} />
       </div>
     );

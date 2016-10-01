@@ -111,6 +111,7 @@ export default class Search extends Component {
 
 	searchTransition() {
 		var hasClass = false;
+		document.getElementsByClassName('mapWrap')[0].classList.remove('displayNone');
 		document.getElementsByClassName('show')[0].classList.remove('dontShow');
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
