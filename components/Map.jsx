@@ -55,9 +55,23 @@ export default class Map extends Component {
 	}
 
 	trackTicketClick() {
-		var eventTitle = document.getElementsByClassName('event-title')[0].firstChild.nextSibling.data;
-		var eventDate = document.getElementsByClassName('event-date')[0].firstChild.nextSibling.data;
-		var eventCity = document.getElementsByClassName('event-city')[0].firstChild.nextSibling.data;
+		const eventTitle = document.getElementsByClassName('event-title')[0].firstChild.nextSibling.data;
+		const eventDate = document.getElementsByClassName('event-date')[0].firstChild.nextSibling.data;
+		const eventCity = document.getElementsByClassName('event-city')[0].firstChild.nextSibling.data;
+		const eventTime = document.getElementsByClassName('event-time')[0].firstChild.nextSibling.data;
+		const eventVenue = document.getElementsByClassName('event-venue')[0].firstChild.nextSibling.data;
+		
+		let details = {
+			eventTitle,
+			eventDate,
+			eventCity,
+			eventTime,
+			eventVenue
+		}; 
+
+		console.log(details);
+
+		// Meteor.call('saveTicketClick', details);
 		window.dataLayer.push({
 			title: eventTitle,
 			date: eventDate,
@@ -142,11 +156,11 @@ export default class Map extends Component {
 		  	time = 'To Be Determined';
 		  }
 		  var open = false;
-			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>';
+			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items event-time\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>';
 			var marker = new google.maps.Marker({
 		    position: coordsObj,
 		    content: markerInfo,
-		    map: self.map,
+		    map: self.map
 		  });
 		  // The most upcoming artist event
 		  if (this.state.counter === 0) {

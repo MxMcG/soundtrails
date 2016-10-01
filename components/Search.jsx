@@ -81,14 +81,13 @@ export default class Search extends Component {
 		});
 	}
 
+	saveSearch(artist) {
+		const session = Session.get('sid');
+		return Meteor.call('saveSearch', artist, session);
+	}
+
 	saveArtist(artist, id) {
-		return Meteor.call('saveArtist', artist, id, function (err, res) {
-			if (err) {
-				return err;
-			} else {
-				return true
-			}
-		});
+		return Meteor.call('saveArtist', artist, id);
 	}
 
 	handleSubmit(e) {
@@ -97,11 +96,13 @@ export default class Search extends Component {
 		var artist = this.state.artist;
 		if (artist) {
 			this.trackArtistSearch(artist);
+			this.saveSearch(artist);
 			this.getArtistId(artist, function (err, id, artistName) {
 				
 				if (err) {
 					Materialize.toast(artistName + ': Cannot be found', 8000);
 				} else {
+					self.saveArtist(artist, id);
 					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
 						if (err) {
 							Materialize.toast(artistName + ' is not on tour', 8000);
@@ -109,9 +110,8 @@ export default class Search extends Component {
 							self.searchTransition();
 							self.createLocations(eventsArray);
 						}
-					}, artist);
+					}, artist);	
 				}
-				self.saveArtist(artist, id);
 				// remove artist state
 				self.setState({ artist: '' });
 			});

@@ -9,34 +9,19 @@ const User = class User {
 
   inspectIncomingUser() {
     const sid = Random.id([20]);
-    const uid = Random.id([20]);
-    let cookieValue = this.getCookie('uid');
-    let userId = cookieValue || uid;
-    let options = {
-      sid,
-      uid: userId
-    }
-    if (cookieValue) {  
+    let cookiedUserId = this.getCookie('uid');
+    if (cookiedUserId) {  
       // add new sid to existing visitor
-      Meteor.call('addNewSession', options, function (err, res) {
-        if (err) {
-          return err;
-        } else {
-          
-        }
-      });
+      Meteor.call('addSession', cookiedUserId, sid);
     } else {
-      // add new visitor id and data
-      Meteor.call('addNewUser', options, function (err, res) {
-        if (err) {
-          return err;
-        } else {
-          
-        }
-      });
+      const uid = Random.id([20]);
       this.createCookie('uid', uid, 90);
-      this.createCookie('sid', sid, 1);
-    } 
+      // add new visitor id and data
+      Meteor.call('addUser', uid, sid);
+    }
+
+    this.createCookie('sid', sid, 1);
+    Session.set('sid', sid);
   }
 
   getCookie(name) {
