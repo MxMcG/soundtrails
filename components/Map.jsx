@@ -48,9 +48,15 @@ export default class Map extends Component {
 	}
 
 	setInfoWindow(content) {
-		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
+		let self = this;
+		const infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
 		infoWindow.innerHTML = content;
-		this.trackTicketClick();
+		
+		const ticketButton = document.getElementsByClassName('ticket-link')[0];
+		ticketButton.addEventListener('click', function () {
+			self.trackTicketClick();
+		});	
+
 		this.addCloseListener();
 	}
 
@@ -60,7 +66,7 @@ export default class Map extends Component {
 		const eventCity = document.getElementsByClassName('event-city')[0].firstChild.nextSibling.data;
 		const eventTime = document.getElementsByClassName('event-time')[0].firstChild.nextSibling.data;
 		const eventVenue = document.getElementsByClassName('event-venue')[0].firstChild.nextSibling.data;
-		
+		let session = Session.get('sid');
 		let details = {
 			eventTitle,
 			eventDate,
@@ -69,7 +75,7 @@ export default class Map extends Component {
 			eventVenue
 		}; 
 
-		console.log(details);
+		Meteor.call('saveTicketClick', details, session);
 
 		// Meteor.call('saveTicketClick', details);
 		window.dataLayer.push({
@@ -167,8 +173,8 @@ export default class Map extends Component {
 				marker.setAnimation(google.maps.Animation.BOUNCE);
 		  }
 			google.maps.event.addListener(marker, 'click', function() {
-        self.setInfoWindow(this.content);
         document.getElementsByClassName('slideUnderInfoBox')[0].classList.add('slid');
+        self.setInfoWindow(this.content);
         document.getElementsByClassName('items')[0].classList.add('slideShow');
         document.getElementsByClassName('offClick')[0].classList.remove('displayNone');
         open = true;
