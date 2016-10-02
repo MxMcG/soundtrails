@@ -94,6 +94,7 @@ export default class Search extends Component {
 		e.preventDefault();
 		var self = this;
 		var artist = this.state.artist;
+		const inputField = document.getElementsByClassName('artist-input')[0];
 		if (artist) {
 			this.trackArtistSearch(artist);
 			this.saveSearch(artist);
@@ -101,6 +102,7 @@ export default class Search extends Component {
 				
 				if (err) {
 					Materialize.toast(artistName + ': Cannot be found', 8000);
+					inputField.value = '';
 				} else {
 					self.saveArtist(artist, id);
 					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
@@ -127,18 +129,22 @@ export default class Search extends Component {
 	}
 
 	searchTransition() {
-		var hasClass = false;
+		let hasClass = false;
+		const inputField = document.getElementsByClassName('artist-input')[0];
+
 		document.getElementsByClassName('mapWrap')[0].classList.remove('displayNone');
 		document.getElementsByClassName('show')[0].classList.remove('dontShow');
   	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
+  		inputField.value = '';
   	},2000);
     setTimeout(function() {
     	document.getElementsByClassName('background')[0].classList.add('displayNone');
     	hasClass = true;
     }, 4000);
 
+		
 
 		if (hasClass = true) {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
@@ -162,7 +168,7 @@ export default class Search extends Component {
 	      	<h3 className="search-title" >Follow the trail of your favorite artists!</h3>
 	      	<form onSubmit={this.handleSubmit}>
 	      	<div className="input-field col s6">
-		        <input type='text' placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
+		        <input type='text' className="artist-input" placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
 		      </div>
 		        <input type="submit" className="big-button" defaultValue='enter'/>
 		      </form>
