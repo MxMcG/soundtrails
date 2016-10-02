@@ -2,19 +2,13 @@ import React, { Component } from 'react';
 
 import Search from './Search.jsx';
 
+'use strict';
 
-// App component - represents the whole app
 export default class Globe extends Component {
-
-
-
-
 
   constructor(props) {
     super(props);
   }
-
-
 
   render() {
     return (
