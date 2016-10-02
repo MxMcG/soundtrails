@@ -20,7 +20,6 @@ const User = class User {
       Meteor.call('addUser', uid, sid);
     }
 
-    this.createCookie('sid', sid, 1);
     Session.set('sid', sid);
   }
 

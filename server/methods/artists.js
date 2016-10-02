@@ -4,19 +4,19 @@ if (Meteor.isServer) {
   Meteor.methods({
   	
   	saveArtist(artist, id) {
-  		artist.toLowerCase();
+  		let artistLowerCase = artist.toLowerCase();
   		let dbArtist = Artists.findOne({
-  			name: artist
+  			name: artistLowerCase
   		});
   		if (dbArtist) {
-  			Artists.update({ name : artist },
+  			Artists.update({ name : artistLowerCase },
 		  		{ $inc: 
 		  			{ searchCount : 1 } 
 		  		}
 	  		);
   		} else {	
 	  		Artists.insert({
-	  			name: artist,
+	  			name: artistLowerCase,
 	  			skId: id,
 	  			searchCount: 0,
 	  			createdAt: new Date()
