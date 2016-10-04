@@ -105,7 +105,7 @@ export default class Search extends Component {
 					Materialize.toast(artistName + ': Cannot be found', 8000);
 					inputField.value = '';
 				} else {
-					self.saveArtist(artist, id);
+					self.saveArtist(artistName, id);
 					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
 						if (err) {
 							Materialize.toast(artistName + ' is not on tour', 8000);
