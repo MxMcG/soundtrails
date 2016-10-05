@@ -10,6 +10,7 @@ const User = class User {
   inspectIncomingUser() {
     const sid = Random.id([20]);
     let cookiedUserId = this.getCookie('uid');
+    this.createCookie('sid', sid, 1);
     if (cookiedUserId) {  
       // add new sid to existing visitor
       Meteor.call('addSession', cookiedUserId, sid);
