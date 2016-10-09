@@ -9,9 +9,8 @@ const User = class User {
 
   inspectIncomingUser() {
     const sid = Random.id([20]);
-    let cookiedUserId = this.getCookie('uid');
-    this.createCookie('sid', sid, 1);
-    if (cookiedUserId) {  
+    let cookiedUserId = this.readCookie('uid');
+    if (cookiedUserId) {
       // add new sid to existing visitor
       Meteor.call('addSession', cookiedUserId, sid);
     } else {
@@ -24,10 +23,15 @@ const User = class User {
     Session.set('sid', sid);
   }
 
-  getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    if (parts.length == 2) return parts.pop().split(";").shift();
+  readCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
   }
 
   createCookie(name, value, days) {
