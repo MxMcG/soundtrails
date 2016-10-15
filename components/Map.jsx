@@ -163,10 +163,25 @@ export default class Map extends Component {
 		  }
 		  var open = false;
 			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items event-time\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>';
+
+			var pinColor = {
+				red: "FF6B6B",
+				green: "#26a69a"
+			};
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor.red,
+			  new google.maps.Size(21, 34),
+			  new google.maps.Point(0,0),
+			  new google.maps.Point(10, 34));
+			var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+			  new google.maps.Size(40, 37),
+			  new google.maps.Point(0, 0),
+			  new google.maps.Point(12, 35));
 			var marker = new google.maps.Marker({
 		    position: coordsObj,
 		    content: markerInfo,
-		    map: self.map
+		    map: self.map,
+		    icon: pinImage,
+		    shadow: pinShadow
 		  });
 		  // The most upcoming artist event
 		  if (this.state.counter === 0) {

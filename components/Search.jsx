@@ -6,6 +6,7 @@ export default class Search extends Component {
 	constructor(props) {
 		super(props);
 		this.createLocations = this.createLocations.bind(this);
+		this.clearSearch = this.clearSearch.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.trackArtistSearch = this.trackArtistSearch.bind(this);
@@ -116,7 +117,7 @@ export default class Search extends Component {
 					inputField.value = '';
 					document.getElementsByClassName('former')[0].classList.remove('transitionOut');
 				} else {
-					self.saveArtist(artist, id);
+					self.saveArtist(artistName, id);
 					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
 						if (err) {
 							Materialize.toast(artistName + ' is not on tour', 8000);
@@ -174,6 +175,12 @@ export default class Search extends Component {
 		ga('set', 'dimension1', dimensionValue);
 	}
 
+	clearSearch() {
+		const inputField = document.getElementsByClassName('artist-input')[0];
+		inputField.value = '';
+		this.setState({ artist: '' });
+	}
+
   render() {
     return (
       <div className="former opener">
@@ -181,7 +188,8 @@ export default class Search extends Component {
 	      	<h3 className="search-title" >Follow the trail of your favorite artists!</h3>
 	      	<form onSubmit={this.handleSubmit}>
 	      	<div className="input-field col s6">
-		        <input type='text' className="artist-input" placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
+		        <input type="text" className="artist-input" placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
+		        <button type="button" className='button-clear' onClick={this.clearSearch}>X</button>
 		      </div>
 		        <input type="submit" className="big-button" defaultValue='enter'/>
 		      </form>
