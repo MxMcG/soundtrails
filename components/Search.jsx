@@ -14,7 +14,8 @@ export default class Search extends Component {
 		this.searchTransition = this.searchTransition.bind(this);
 		this.saveArtist = this.saveArtist.bind(this);
 		this.state = {
-			artist: ''
+			artist: '',
+			searchButton: 'active'
 		};
 	}
 
@@ -90,11 +91,21 @@ export default class Search extends Component {
 		return Meteor.call('saveArtist', artist, id);
 	}
 
+	disableSearch() {
+		document.getElementsByClassName('big-button')[0].disabled = true;
+		window.setTimeout(function () {
+			document.getElementsByClassName('big-button')[0].disabled = false;
+		}, 4000);
+	}
+
 	handleSubmit(e) {
 		e.preventDefault();
 		var self = this;
 		var artist = this.state.artist;
 		const inputField = document.getElementsByClassName('artist-input')[0];
+		document.getElementsByClassName('former')[0].classList.add('transitionOut');
+		this.disableSearch();
+		
 		if (artist) {
 			this.trackArtistSearch(artist);
 			this.saveSearch(artist);
@@ -103,11 +114,13 @@ export default class Search extends Component {
 				if (err) {
 					Materialize.toast(artistName + ': Cannot be found', 8000);
 					inputField.value = '';
+					document.getElementsByClassName('former')[0].classList.remove('transitionOut');
 				} else {
 					self.saveArtist(artist, id);
 					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
 						if (err) {
 							Materialize.toast(artistName + ' is not on tour', 8000);
+							document.getElementsByClassName('former')[0].classList.remove('transitionOut');
 						} else {
 							self.searchTransition();
 							self.createLocations(eventsArray);
@@ -119,6 +132,7 @@ export default class Search extends Component {
 			});
 		} else {
 			Materialize.toast('Please enter an artist', 8000);
+			document.getElementsByClassName('former')[0].classList.remove('transitionOut');
 		}
 	}
 
@@ -131,14 +145,13 @@ export default class Search extends Component {
 	searchTransition() {
 		let hasClass = false;
 		const inputField = document.getElementsByClassName('artist-input')[0];
-
 		document.getElementsByClassName('mapWrap')[0].classList.remove('displayNone');
 		document.getElementsByClassName('show')[0].classList.remove('dontShow');
-  	document.getElementsByClassName('former')[0].classList.add('transitionOut');
   	setTimeout(function() {
   		document.getElementsByClassName('background')[0].classList.add('zoomIn');
   		inputField.value = '';
-  	},2000);
+  	}, 2000);
+
     setTimeout(function() {
     	document.getElementsByClassName('background')[0].classList.add('displayNone');
     	hasClass = true;
