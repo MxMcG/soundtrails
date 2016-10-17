@@ -15,7 +15,8 @@ export default class Map extends Component {
 		super(props);
 		this.addCloseListener = this.addCloseListener.bind(this);
 		this.animatePath = this.animatePath.bind(this);
-		this.createMarkers = this.createMarkers.bind(this);
+		this.createMarker = this.createMarker.bind(this);
+		this.colorLuminance = this.colorLuminance.bind(this);
 		this.getUserCoords = this.getUserCoords.bind(this);
 		this.initMap = this.initMap.bind(this);
 		this.openSearchModal = this.openSearchModal.bind(this);
@@ -26,6 +27,7 @@ export default class Map extends Component {
 		this.trackTicketClick = this.trackTicketClick.bind(this);
 		this.state = {
 			counter: 0,
+			shadeInc: 0,
 			markers: []
 		};
 	}
@@ -134,7 +136,26 @@ export default class Map extends Component {
 		this.animatePath(coords, content);
 	}
 
-	createMarkers(coordsObj, contentObj) {
+	colorLuminance(hex, lum) {
+		console.log(hex)
+		// validate hex string
+		hex = String(hex).replace(/[^0-9a-f]/gi, '');
+		if (hex.length < 6) {
+			hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+		}
+		lum = lum || 0;
+
+		// convert to decimal and change luminosity
+		var rgb = "#", c, i;
+		for (i = 0; i < 3; i++) {
+			c = parseInt(hex.substr(i*2,2), 16);
+			c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+			rgb += ("00"+c).substr(c.length);
+		}
+		return rgb.slice(1);
+	}
+
+	createMarker(coordsObj, contentObj, hexColor) {
 		var self = this;
 		if (coordsObj.lat != null) {
 			var markerContent = contentObj;
@@ -163,12 +184,7 @@ export default class Map extends Component {
 		  }
 		  var open = false;
 			var markerInfo = '<div class=\'infoBoxWrap clearfix\' modal-footer><div class=\'closeWindow\'></div><div class=\'information\'><p class=\'items event-title\'><i class=\'fa fa-tag\' aria-hidden=\'true\'></i>' + markerContent.eTitle + '</p><p class=\'items event-date\'><i class=\'fa fa-calendar\' aria-hidden=\'true\'></i>' + date + '</p><p class=\'items event-venue\'><i class=\'fa fa-map-marker\' aria-hidden=\'true\'></i>' + markerContent.eVenue + '</p><p class=\'items event-city\'><i class=\'fa fa-building\' aria-hidden=\'true\'></i>' + markerContent.eCity + '</p><p class=\'items event-time\'><i class=\'fa fa-clock-o\' aria-hidden=\'true\'></i>' + time + '</p></div><div class=\'fifty-block\'><a href=' + markerContent.eUrl + ' class=\'link ticket-link\' target=\'_blank\'><i class=\'fa fa-ticket\' aria-hidden=\'true\'></i>Tickets</a><img class=\'sk-logo\' src="/img/sk-white.png"/></div></div>';
-
-			var pinColor = {
-				red: "FF6B6B",
-				green: "#26a69a"
-			};
-			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor.red,
+			var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + hexColor,
 			  new google.maps.Size(21, 34),
 			  new google.maps.Point(0,0),
 			  new google.maps.Point(10, 34));
@@ -183,6 +199,7 @@ export default class Map extends Component {
 		    icon: pinImage,
 		    shadow: pinShadow
 		  });
+
 		  // The most upcoming artist event
 		  if (this.state.counter === 0) {
 				marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -207,8 +224,16 @@ export default class Map extends Component {
 		var cleanCoords = coords.filter(function(coord) {
 	  	return (coord.lat !== null);
 	  });
-	  if (cleanCoords[counter] !== undefined) {
-	  	// handles stoppage of path on final coordinate
+	  let locationCount = cleanCoords.length;
+	  let shadeIncrement = (150 / locationCount);
+	  if (cleanCoords[counter] !== undefined) {	
+	  	self.state.shadeInc += shadeIncrement;
+	  	let shadeIncDecimal = (self.state.shadeInc / 100);
+	  	var hexColor = this.colorLuminance('#ff6b6b', shadeIncDecimal);
+			// creates marker at each coordinate
+			self.createMarker(cleanCoords[counter], content[counter], hexColor);
+			// handles line animation
+			// handles stoppage of path on final coordinate
 	  	if (cleanCoords[counter + 1] === undefined) {
 				var departure = new google.maps.LatLng(cleanCoords[counter].lat, cleanCoords[counter].lng); //Set to whatever lat/lng you need for your departure location
 				var arrival = new google.maps.LatLng(cleanCoords[counter].lat, cleanCoords[counter].lng); //Set to whatever lat/lng you need for your arrival location
@@ -227,8 +252,6 @@ export default class Map extends Component {
 			var step = 0;
 			var numSteps = 250; //Change this to set animation resolution
 			var timePerStep = 5; //Change this to alter animation speed
-			// creates marker at each coordinate
-			self.createMarkers(cleanCoords[counter], content[counter]);
 			// draws line between coordinates
 			RUNPATH = setInterval(function() {
 				step += 1;
@@ -242,7 +265,10 @@ export default class Map extends Component {
 				}
 			}, timePerStep);
 		} else {
-			this.setState({ counter: 0 });
+			this.setState({ 
+				counter: 0,
+				shadeInc: 0 
+			});
 		}
 	}
 

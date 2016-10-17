@@ -5,10 +5,11 @@ const User = class User {
   constructor(properties) {
     this.properties = properties;
     this.inspectIncomingUser();
+    this.addNewUser = this.addNewUser.bind(this)
   }
 
   inspectIncomingUser() {
-    let self;
+    const self = this;
     const sid = Random.id([20]);
     let cookiedUserId = this.readCookie('uid');      
     if (cookiedUserId) {
