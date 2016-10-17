@@ -8,19 +8,29 @@ const User = class User {
   }
 
   inspectIncomingUser() {
+    let self;
     const sid = Random.id([20]);
-    let cookiedUserId = this.readCookie('uid');
+    let cookiedUserId = this.readCookie('uid');      
     if (cookiedUserId) {
-      // add new sid to existing visitor
-      Meteor.call('addSession', cookiedUserId, sid);
+      Meteor.call('userIdExists', cookiedUserId, function (err, res) {
+        if (res === true) {
+          // add new sid to existing visitor
+          Meteor.call('addSession', cookiedUserId, sid);
+        } else {
+          self.addNewUser(sid);
+        }
+      });
     } else {
-      const uid = Random.id([20]);
-      this.createCookie('uid', uid, 90);
-      // add new visitor id and data
-      Meteor.call('addUser', uid, sid);
-    }
-
+      self.addNewUser(sid);
+    }  
     Session.set('sid', sid);
+  }
+
+  addNewUser(sid) {
+    const uid = Random.id([20]);
+    this.createCookie('uid', uid, 90);
+    // add new visitor id and data
+    Meteor.call('addUser', uid, sid);
   }
 
   readCookie(name) {
