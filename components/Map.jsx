@@ -317,7 +317,7 @@ export default class Map extends Component {
 		    		<a className='btn-floating btn-large waves-effect waves-light search show dontShow'
 		    		  onClick={this.openSearchModal} >
 		    		  <i className="material-icons searchClick">search</i>
-		    		  <i className="fa fa-times close" aria-hidden="true"></i>
+		    		  <i className="fa fa-times close c" aria-hidden="true"></i>
 		    		</a>
 						<div id='map'>
 						</div>
