@@ -137,8 +137,7 @@ export default class Map extends Component {
 	}
 
 	colorLuminance(hex, lum) {
-		console.log(hex)
-		// validate hex string
+
 		hex = String(hex).replace(/[^0-9a-f]/gi, '');
 		if (hex.length < 6) {
 			hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];

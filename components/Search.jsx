@@ -155,6 +155,7 @@ export default class Search extends Component {
 
     setTimeout(function() {
     	document.getElementsByClassName('background')[0].classList.add('displayNone');
+    	document.getElementsByClassName('btn-floating')[0].classList.add('z');
     	hasClass = true;
     }, 4000);
 
@@ -189,7 +190,7 @@ export default class Search extends Component {
 	      	<form onSubmit={this.handleSubmit}>
 	      	<div className="input-field col s6">
 		        <input type="text" className="artist-input" placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
-		        <button type="button" className='button-clear' onClick={this.clearSearch}><i className="fa fa-times close" aria-hidden="true"></i></button>
+		        <button type="button" className='button-clear' onClick={this.clearSearch}><i className="fa fa-times close t_c" aria-hidden="true"></i></button>
 		      </div>
 		        <input type="submit" className="big-button" defaultValue='enter'/>
 		      </form>

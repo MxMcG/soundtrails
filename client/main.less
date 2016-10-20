@@ -94,6 +94,10 @@ body {
      border-bottom: 3px solid rgba(255, 107, 107, .9);
       background: rgba(255, 107, 107, 0.7);
 
+    &:active {
+      vertical-align: top;
+      border-bottom: 1px solid rgba(255, 107, 107, .9);
+    }
       
     }
 
@@ -202,7 +206,7 @@ body {
 }
 
 .fb-share-button {
-  position: absolute;
+  position: fixed;
 }
 
 .songkickLogoMap {
@@ -242,6 +246,15 @@ body {
   opacity: 0;
 }
 
+.t_c {
+  opacity: 0;
+}
+
+.t_c.animation {
+  opacity: 0;
+  animation: slideDown 1s ease;
+  animation-fill-mode: forwards;
+}
 
 
 .former.animation input {
@@ -388,6 +401,10 @@ body {
   }
 
 
+}
+
+.btn-floating.z {
+  z-index: 3;
 }
 
 .information {
