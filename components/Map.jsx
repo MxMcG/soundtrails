@@ -90,7 +90,7 @@ export default class Map extends Component {
 	addCloseListener() {
 		var infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
 		var closeButton = document.getElementsByClassName('closeWindow')[0];
-		closeButton.innerHTML = '<i class="fa fa-times close" aria-hidden="true"></i>';
+		closeButton.innerHTML = '<i class="fa fa-times close c" aria-hidden="true"></i>';
 		closeButton.addEventListener('click', function () {
 		if (open = true) {
 			document.getElementsByClassName('offClick')[0].classList.add('displayNone');
@@ -287,7 +287,7 @@ export default class Map extends Component {
 	openSearchModal() {
 		document.getElementsByClassName('former')[0].classList.toggle('transitionOut');
 		document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
-		document.getElementsByClassName('close')[0].classList.toggle('searchClick');
+		document.getElementsByClassName('c')[0].classList.toggle('searchClick');
 	}
 
 	closeModal() {

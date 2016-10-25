@@ -163,7 +163,7 @@ export default class Search extends Component {
 
 		if (hasClass = true) {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
-			document.getElementsByClassName('close')[0].classList.toggle('searchClick');
+			document.getElementsByClassName('c')[0].classList.toggle('searchClick');
 		}
 	}
 
