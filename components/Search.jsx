@@ -106,35 +106,44 @@ export default class Search extends Component {
 		const inputField = document.getElementsByClassName('artist-input')[0];
 		document.getElementsByClassName('former')[0].classList.add('transitionOut');
 		this.disableSearch();
-		
-		if (artist) {
-			this.trackArtistSearch(artist);
-			this.saveSearch(artist);
-			this.getArtistId(artist, function (err, id, artistName) {
+
+		Meteor.call('requestAPIs', artist, function (err, res) {
+			if (err) {
+				return err;
+			} else {
+				return res;
+			}
+		});
+		// self.createLocations(eventsArray);
+
+		// if (artist) {
+		// 	this.trackArtistSearch(artist);
+		// 	this.saveSearch(artist);
+		// 	this.getArtistId(artist, function (err, id, artistName) {
 				
-				if (err) {
-					Materialize.toast(artistName + ': Cannot be found', 8000);
-					inputField.value = '';
-					document.getElementsByClassName('former')[0].classList.remove('transitionOut');
-				} else {
-					self.saveArtist(artistName, id);
-					self.getArtistCalendar(id, function (err, eventsArray, artistName) {
-						if (err) {
-							Materialize.toast(artistName + ' is not on tour', 8000);
-							document.getElementsByClassName('former')[0].classList.remove('transitionOut');
-						} else {
-							self.searchTransition();
-							self.createLocations(eventsArray);
-						}
-					}, artist);	
-				}
-				// remove artist state
-				self.setState({ artist: '' });
-			});
-		} else {
-			Materialize.toast('Please enter an artist', 8000);
-			document.getElementsByClassName('former')[0].classList.remove('transitionOut');
-		}
+		// 		if (err) {
+		// 			Materialize.toast(artistName + ': Cannot be found', 8000);
+		// 			inputField.value = '';
+		// 			document.getElementsByClassName('former')[0].classList.remove('transitionOut');
+		// 		} else {
+		// 			self.saveArtist(artistName, id);
+		// 			self.getArtistCalendar(id, function (err, eventsArray, artistName) {
+		// 				if (err) {
+		// 					Materialize.toast(artistName + ' is not on tour', 8000);
+		// 					document.getElementsByClassName('former')[0].classList.remove('transitionOut');
+		// 				} else {
+		// 					self.searchTransition();
+		// 					self.createLocations(eventsArray);
+		// 				}
+		// 			}, artist);	
+		// 		}
+		// 		// remove artist state
+		// 		self.setState({ artist: '' });
+		// 	});
+		// } else {
+		// 	Materialize.toast('Please enter an artist', 8000);
+		// 	document.getElementsByClassName('former')[0].classList.remove('transitionOut');
+		// }
 	}
 
 	handleChange(e) {
