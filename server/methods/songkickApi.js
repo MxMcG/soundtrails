@@ -2,35 +2,35 @@ import { Meteor } from 'meteor/meteor';
 
 if (Meteor.isServer) {
 
-	Meteor.methods({
-
-		fetchSongkickCalender(artist) {
-			return new Promise((resolve, reject) => {
-				fetchArtistId(artist, (response) => {
-					if (response.data.resultsPage.results.artist === undefined) {
-						reject('Artist not found.');
-					} else {
-						resolve(response.data.resultsPage.results.artist[0].id);
-					}
-				});
-			}, (error) => {
-				throw error
-			}).then((id) => {
-				fetchArtistCalendar(id, (response) => {
-					if (!res.data.resultsPage.results.event) {
-						reject('Artist is not on tour.');
-					} else {
-						resolve(JSON.parse(response.content).resultsPage.results.event);
-					}
-				});
-			}, (error) => {
-				throw error;
+	// returns array of event object, or an error object
+	export const fetchSongkickCalendar = (artist) => {
+		return new Promise((resolve, reject) => {
+			fetchArtistId(artist, (response) => {
+				if (response.data.resultsPage.results.artist === undefined) {
+					reject([{ error: 'artist not found'}]);
+				} else {
+					resolve(response.data.resultsPage.results.artist[0].id);
+				}
 			});
-		
-		}
+		}).then((id) => {
+			return new Promise((resolve, reject) => {
+				fetchArtistCalendar(id, (response) => {
+					if (!response.data.resultsPage.results.event) {
+						reject([{ error: 'artist not on tour'}]);
+					} else {
+						const events = JSON.parse(response.content).resultsPage.results.event;
+						resolve(events);
+					}
+				});	
+			});	
+		}).then((events) => {
+			return events
+		}, (error) => {
+			throw error;
+		});
+	}
 
-	});
-
+	// hits songkick endpoint with artist search to get artist id
 	const fetchArtistId = (artist, callback) => {
 		Future = Npm.require('fibers/future');
 		var myFuture = new Future();
@@ -52,6 +52,7 @@ if (Meteor.isServer) {
 		callback(myFuture.wait());
 	}
 
+	// takes artist id and hit songkick for a calendar of upcoming events
 	const fetchArtistCalendar = (id, callback) => {
 		Future = Npm.require('fibers/future');
 		var myFuture = new Future();
@@ -70,4 +71,6 @@ if (Meteor.isServer) {
 
 		callback(myFuture.wait());
 	}
+
 }
+
