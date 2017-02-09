@@ -16,10 +16,26 @@ overflow: hidden;
   }
 }
 
+.big-button {
+  margin-top: 15px;
+}
+
+.suggestionBox {
+  margin: 0 0 15px 0;
+  border-left: 1px solid rgba(209, 209, 209, 0.5);
+  border-right: 1px solid rgba(209, 209, 209, 0.5);
+  border-bottom: 1px solid rgba(209, 209, 209, 0.5);
+}
+
+.suggestionItem {
+  padding: 6px 0 6px 8px;
+  border-bottom: 1px rgba(209, 209, 209, 0.5) solid;
+}
+
 #map {
-  width: 100%; 
+  width: 100%;
   height: 100%;
-  position: absolute; 
+  position: absolute;
   left: 0;
   right: 0;
   top: 0;
@@ -27,8 +43,6 @@ overflow: hidden;
   z-index: 0;
 
 }
-
-
 
 .show {
   opacity: 1;
@@ -63,7 +77,7 @@ body {
     position: fixed;
     z-index: 3;
     text-shadow: 4px 4px 2px rgba(150, 150, 150, 0.32);
-    
+
   }
   .opener.former {
     transform: translateY(-20px);
@@ -98,12 +112,12 @@ body {
       vertical-align: top;
       border-bottom: 1px solid rgba(255, 107, 107, .9);
     }
-      
+
     }
 
-    
-     
-   
+
+
+
   }
 
 
@@ -264,6 +278,7 @@ body {
   font-size: 20px;
   animation: slideDown 1s ease;
   animation-fill-mode: forwards;
+  margin: 0;
 }
 
 .former.animation h3 {
@@ -360,7 +375,7 @@ body {
   }
 
   form {
-   
+
   }
 
 }
@@ -564,15 +579,15 @@ transition: all 2s cubic-bezier(0.680, 0, 0.265, 1);
 }
 
 input[type=text] {
-  border-bottom: 1px solid rgba(209, 209, 209, 0.5); 
+  border-bottom: 1px solid rgba(209, 209, 209, 0.5);
 }
 
-.button-clear, 
+.button-clear,
 .button-clear:active,
 .button-clear:focus {
   float: right;
   position: relative;
-  bottom: 47px;
+  bottom: 34px;
   right: 0px;
   font-weight: bold;
   background: none;
@@ -601,7 +616,7 @@ input[type=text] {
 body #container {
     height: 300px;
     width: 300px;
-} 
+}
    body .video {
     height: 300px;
     width: 300px;
@@ -664,6 +679,3 @@ body #container {
     font-size: 20px;
    }
 }
-
-
-
