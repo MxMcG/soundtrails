@@ -145,20 +145,21 @@ export default class Search extends Component {
 		const searchValue = e.target.value;
 		if (searchValue.length > 3) {
 			const fuse = new Fuse(this.state.artistData, { keys: ["name"] });
-			const fuzzySearchResults = fuse.search(searchValue);
-			const searchSuggestions = [
-				fuzzySearchResults[0],
-				fuzzySearchResults[1],
-				fuzzySearchResults[2],
-				fuzzySearchResults[3]
-			];
-			this.setState({ searchSuggestions });
+			const fuzzySearchResults = fuse.search(searchValue);			
+			if (fuzzySearchResults.length >= 4 && searchValue.length < 10) {
+				const searchSuggestions = [
+					fuzzySearchResults[0],
+					fuzzySearchResults[1],
+					fuzzySearchResults[2],
+					fuzzySearchResults[3]
+				];
+				this.setState({ searchSuggestions });
+			}
 		}
 		this.setState({ artist: searchValue });
 	}
 
 	handleFuzzyClick(value) {
-
 		this.setState({ artist: value });
 		this.setState({ searchSuggestions: [] });
 	}
@@ -202,22 +203,21 @@ export default class Search extends Component {
 
 	renderFuzzySearch() {
 		const suggestions = this.state.searchSuggestions;
+		const renderSuggestions = [];
+		if (suggestions.length > 1) {
+			suggestions.forEach((suggestion, index) => {
+				renderSuggestions.push(
+					<li className="suggestionItem" key={index} onClick={() => { this.handleFuzzyClick(suggestion.name) }}>
+						{suggestion.name}
+					</li>
+				);
+			});
+		}
 		if (suggestions.length > 1) {
 			return (
 				<div className="fuzzySearchBox">
 					<ul className="suggestionBox">
-						<li className="suggestionItem" onClick={() => { this.handleFuzzyClick(suggestions[0].name) }}>
-							{suggestions[0].name}
-						</li>
-						<li className="suggestionItem" onClick={() => { this.handleFuzzyClick(suggestions[1].name) }}>
-							{suggestions[1].name}
-						</li>
-						<li className="suggestionItem" onClick={() => { this.handleFuzzyClick(suggestions[2].name) }}>
-							{suggestions[2].name}
-						</li>
-						<li className="suggestionItem" onClick={() => { this.handleFuzzyClick(suggestions[3].name) }}>
-							{suggestions[3].name}
-						</li>
+						{ renderSuggestions }
 					</ul>
 				</div>
 			)
