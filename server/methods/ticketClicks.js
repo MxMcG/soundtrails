@@ -13,7 +13,7 @@ if (Meteor.isServer) {
 				eventTime: details.eventTime,
 				createdAt: new Date()
 			});
-		} 
+		}
 	});
 
 }

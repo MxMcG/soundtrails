@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-
+import Fuse from 'fuse.js';
+import { artistData } from '../data.js';
 
 export default class Search extends Component {
 
@@ -12,11 +13,14 @@ export default class Search extends Component {
 		this.trackArtistSearch = this.trackArtistSearch.bind(this);
 		this.getArtistId = this.getArtistId.bind(this);
 		this.getArtistCalendar = this.getArtistCalendar.bind(this);
+		this.renderFuzzySearch = this.renderFuzzySearch.bind(this);
 		this.searchTransition = this.searchTransition.bind(this);
 		this.saveArtist = this.saveArtist.bind(this);
 		this.state = {
 			artist: '',
-			searchButton: 'active'
+			searchButton: 'active',
+			artistData: artistData(),
+			searchSuggestions: []
 		};
 	}
 
@@ -106,12 +110,12 @@ export default class Search extends Component {
 		const inputField = document.getElementsByClassName('artist-input')[0];
 		document.getElementsByClassName('former')[0].classList.add('transitionOut');
 		this.disableSearch();
-		
+
 		if (artist) {
 			this.trackArtistSearch(artist);
 			this.saveSearch(artist);
 			this.getArtistId(artist, function (err, id, artistName) {
-				
+
 				if (err) {
 					Materialize.toast(artistName + ': Cannot be found', 8000);
 					inputField.value = '';
@@ -126,7 +130,7 @@ export default class Search extends Component {
 							self.searchTransition();
 							self.createLocations(eventsArray);
 						}
-					}, artist);	
+					}, artist);
 				}
 				// remove artist state
 				self.setState({ artist: '' });
@@ -138,9 +142,26 @@ export default class Search extends Component {
 	}
 
 	handleChange(e) {
-		if (e.target.value != "") {
-			this.setState({ artist: e.target.value });
+		const searchValue = e.target.value;
+		if (searchValue.length > 3) {
+			const fuse = new Fuse(this.state.artistData, { keys: ["name"] });
+			const fuzzySearchResults = fuse.search(searchValue);			
+			if (fuzzySearchResults.length >= 4 && searchValue.length < 10) {
+				const searchSuggestions = [
+					fuzzySearchResults[0],
+					fuzzySearchResults[1],
+					fuzzySearchResults[2],
+					fuzzySearchResults[3]
+				];
+				this.setState({ searchSuggestions });
+			}
 		}
+		this.setState({ artist: searchValue });
+	}
+
+	handleFuzzyClick(value) {
+		this.setState({ artist: value });
+		this.setState({ searchSuggestions: [] });
 	}
 
 	searchTransition() {
@@ -158,8 +179,6 @@ export default class Search extends Component {
     	document.getElementsByClassName('btn-floating')[0].classList.add('z');
     	hasClass = true;
     }, 4000);
-
-		
 
 		if (hasClass = true) {
 			document.getElementsByClassName('material-icons')[0].classList.toggle("searchClick");
@@ -182,16 +201,41 @@ export default class Search extends Component {
 		this.setState({ artist: '' });
 	}
 
+	renderFuzzySearch() {
+		const suggestions = this.state.searchSuggestions;
+		const renderSuggestions = [];
+		if (suggestions.length > 1) {
+			suggestions.forEach((suggestion, index) => {
+				renderSuggestions.push(
+					<li className="suggestionItem" key={index} onClick={() => { this.handleFuzzyClick(suggestion.name) }}>
+						{suggestion.name}
+					</li>
+				);
+			});
+		}
+		if (suggestions.length > 1) {
+			return (
+				<div className="fuzzySearchBox">
+					<ul className="suggestionBox">
+						{ renderSuggestions }
+					</ul>
+				</div>
+			)
+		}
+		return null;
+	}
+
   render() {
     return (
       <div className="former opener">
       	<div className="wrapped_form">
 	      	<h3 className="search-title" >Follow the trail of your favorite artists!</h3>
 	      	<form onSubmit={this.handleSubmit}>
-	      	<div className="input-field col s6">
-		        <input type="text" className="artist-input" placeholder="Enter Artist" onChange={this.handleChange} autoFocus/>
-		        <button type="button" className='button-clear' onClick={this.clearSearch}><i className="fa fa-times close t_c" aria-hidden="true"></i></button>
-		      </div>
+		      	<div className="input-field col s6">
+			        <input type="text" className="artist-input" placeholder="Enter Artist" onChange={this.handleChange} value={this.state.artist} autoFocus/>
+			        <button type="button" className='button-clear' onClick={this.clearSearch}><i className="fa fa-times close t_c" aria-hidden="true"></i></button>
+			      </div>
+						{ this.renderFuzzySearch() }
 		        <input type="submit" className="big-button" defaultValue='enter'/>
 		      </form>
 		    </div>
@@ -203,3 +247,7 @@ export default class Search extends Component {
 Search.propTypes = {
 	setupMarkers: React.PropTypes.func
 };
+
+// document.querySelectorAll('td.name').forEach((node) => {ary.push({
+// 	name: node.firstChild.nextSibling.innerText
+// })})

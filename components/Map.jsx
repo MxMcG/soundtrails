@@ -53,11 +53,11 @@ export default class Map extends Component {
 		let self = this;
 		const infoWindow = document.getElementsByClassName('slideUnderInfoBox')[0];
 		infoWindow.innerHTML = content;
-		
+
 		const ticketButton = document.getElementsByClassName('ticket-link')[0];
 		ticketButton.addEventListener('click', function () {
 			self.trackTicketClick();
-		});	
+		});
 
 		this.addCloseListener();
 	}
@@ -75,7 +75,7 @@ export default class Map extends Component {
 			eventCity,
 			eventTime,
 			eventVenue
-		}; 
+		};
 
 		Meteor.call('saveTicketClick', details, session);
 
@@ -225,7 +225,7 @@ export default class Map extends Component {
 	  });
 	  let locationCount = cleanCoords.length;
 	  let shadeIncrement = (150 / locationCount);
-	  if (cleanCoords[counter] !== undefined) {	
+	  if (cleanCoords[counter] !== undefined) {
 	  	self.state.shadeInc += shadeIncrement;
 	  	let shadeIncDecimal = (self.state.shadeInc / 100);
 	  	var hexColor = this.colorLuminance('#ff6b6b', shadeIncDecimal);
@@ -264,9 +264,9 @@ export default class Map extends Component {
 				}
 			}, timePerStep);
 		} else {
-			this.setState({ 
+			this.setState({
 				counter: 0,
-				shadeInc: 0 
+				shadeInc: 0
 			});
 		}
 	}
@@ -305,9 +305,9 @@ export default class Map extends Component {
     return (
 	    	<div className='mapContainer'>
 	    		<Search setupMarkers={this.setupMarkers} />
-	    		<div className="fb-share-button" data-href="https://www.tourlookup.com" 
+	    		<div className="fb-share-button" data-href="https://www.tourlookup.com"
 	    			data-layout="button" data-size="large" data-mobile-iframe="true">
-	    			<a className="fb-xfbml-parse-ignore" target="_blank" 
+	    			<a className="fb-xfbml-parse-ignore" target="_blank"
 	    				href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tourlookup.com%2F&amp;src=sdkpreparse">
 	    					Share
 	    			</a>
@@ -321,7 +321,7 @@ export default class Map extends Component {
 		    		</a>
 						<div id='map'>
 						</div>
-						<img className='songkickLogoMap' src={'/img/songkick-logo.png'}/>
+						<img className='songkickLogoMap' src={'/img/songkick-logo.png'} alt="Songkick logo ticket map"/>
 						<div className='slideUnderInfoBox'></div>
 					</div>
 				</div>

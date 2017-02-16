@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 
 if (Meteor.isServer) {
   Meteor.methods({
-  	
+
   	saveArtist(artist, id) {
   		let artistLowerCase = artist.toLowerCase();
   		let dbArtist = Artists.findOne({
@@ -10,11 +10,11 @@ if (Meteor.isServer) {
   		});
   		if (dbArtist) {
   			Artists.update({ name : artistLowerCase },
-		  		{ $inc: 
-		  			{ searchCount : 1 } 
+		  		{ $inc:
+		  			{ searchCount : 1 }
 		  		}
 	  		);
-  		} else {	
+  		} else {
 	  		Artists.insert({
 	  			name: artistLowerCase,
 	  			skId: id,
@@ -22,7 +22,7 @@ if (Meteor.isServer) {
 	  			createdAt: new Date()
 	  		});
   		}
-  	}  	
+  	}
 
   });
 }
