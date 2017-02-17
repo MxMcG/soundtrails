@@ -24,5 +24,7 @@ if (Meteor.isServer) {
   		}
   	}
 
+    // fetchAllArtists
+
   });
 }

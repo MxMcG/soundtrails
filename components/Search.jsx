@@ -145,7 +145,7 @@ export default class Search extends Component {
 		const searchValue = e.target.value;
 		if (searchValue.length > 3) {
 			const fuse = new Fuse(this.state.artistData, { keys: ["name"] });
-			const fuzzySearchResults = fuse.search(searchValue);			
+			const fuzzySearchResults = fuse.search(searchValue);
 			if (fuzzySearchResults.length >= 4 && searchValue.length < 10) {
 				const searchSuggestions = [
 					fuzzySearchResults[0],
