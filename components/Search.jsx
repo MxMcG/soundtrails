@@ -146,15 +146,16 @@ export default class Search extends Component {
 		if (searchValue.length > 3) {
 			const fuse = new Fuse(this.state.artistData, { keys: ["name"] });
 			const fuzzySearchResults = fuse.search(searchValue);
-			if (fuzzySearchResults.length >= 4 && searchValue.length < 10) {
+			if (fuzzySearchResults.length >= 2 && searchValue.length < 7) {
 				const searchSuggestions = [
 					fuzzySearchResults[0],
 					fuzzySearchResults[1],
-					fuzzySearchResults[2],
-					fuzzySearchResults[3]
+					fuzzySearchResults[2]
 				];
 				this.setState({ searchSuggestions });
 			}
+		} else {
+			this.setState({ searchSuggestions: [] });
 		}
 		this.setState({ artist: searchValue });
 	}
@@ -212,15 +213,13 @@ export default class Search extends Component {
 					</li>
 				);
 			});
-		}
-		if (suggestions.length > 1) {
 			return (
 				<div className="fuzzySearchBox">
 					<ul className="suggestionBox">
 						{ renderSuggestions }
 					</ul>
 				</div>
-			)
+			);
 		}
 		return null;
 	}
