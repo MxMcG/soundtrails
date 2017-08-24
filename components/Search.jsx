@@ -143,20 +143,20 @@ export default class Search extends Component {
 
 	handleChange(e) {
 		const searchValue = e.target.value;
-		if (searchValue.length > 3) {
-			const fuse = new Fuse(this.state.artistData, { keys: ["name"] });
-			const fuzzySearchResults = fuse.search(searchValue);
-			if (fuzzySearchResults.length >= 2 && searchValue.length < 7) {
-				const searchSuggestions = [
-					fuzzySearchResults[0],
-					fuzzySearchResults[1],
-					fuzzySearchResults[2]
-				];
-				this.setState({ searchSuggestions });
-			}
-		} else {
-			this.setState({ searchSuggestions: [] });
-		}
+		// if (searchValue.length > 3) {
+		// 	const fuse = new Fuse(this.state.artistData, { keys: ["name"] });
+		// 	const fuzzySearchResults = fuse.search(searchValue);
+		// 	if (fuzzySearchResults.length >= 2 && searchValue.length < 7) {
+		// 		const searchSuggestions = [
+		// 			fuzzySearchResults[0],
+		// 			fuzzySearchResults[1],
+		// 			fuzzySearchResults[2]
+		// 		];
+		// 		this.setState({ searchSuggestions });
+		// 	}
+		// } else {
+		// 	this.setState({ searchSuggestions: [] });
+		// }
 		this.setState({ artist: searchValue });
 	}
 
